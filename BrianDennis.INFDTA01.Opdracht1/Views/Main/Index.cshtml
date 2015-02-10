@@ -1,0 +1,21 @@
+﻿@using BrianDennis.INFDTA01.Opdracht1.Models
+@model BrianDennis.INFDTA01.Opdracht1.Models.IndexViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<ul>
+
+
+    @foreach (KeyValuePair<int, List<UserPreferenceModel>> item in Model.Data)
+    {
+        <li>UserID: @item.Key</li>
+    <ul>
+        @foreach (UserPreferenceModel preferences in item.Value)
+        {
+            <li>Article Id: @preferences.ArticleId - Rating: @preferences.Rating</li>
+        }
+    </ul>
+    }
+</ul>
