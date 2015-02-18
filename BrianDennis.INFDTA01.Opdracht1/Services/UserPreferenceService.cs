@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using BrianDennis.INFDTA01.Opdracht1.Models;
 
 namespace BrianDennis.INFDTA01.Opdracht1.Services
@@ -8,35 +9,39 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
     {
         public SortedDictionary<int, List<UserPreferenceModel>> Load()
         {
-            string line;
-            StreamReader reader = new StreamReader(@"c:\users\dennis\documents\visual studio 2013\Projects\BrianDennis.INFDTA01\BrianDennis.INFDTA01.Opdracht1\userItem.csv");
-
             SortedDictionary<int, List<UserPreferenceModel>> dataSet = new SortedDictionary<int, List<UserPreferenceModel>>();
 
-            while ((line = reader.ReadLine()) != null)
+            var lines = File.ReadAllLines(Configuration.FilePath);
+
+            Parallel.ForEach(lines, line =>
             {
-                string[] row = line.Split(',');
-
-                int userId = int.Parse(row[0]);
-                int articleId = int.Parse(row[1]);
-                float rating = float.Parse(row[2]);
-
-                if (!dataSet.ContainsKey(userId))
+                lock (dataSet)
                 {
-                    List<UserPreferenceModel> content = new List<UserPreferenceModel>() ;
-                    content.Add(new UserPreferenceModel {ArticleId = articleId, Rating = rating});
-                    dataSet.Add(userId, content);
+                    Process(line, dataSet);
                 }
-                else
-                {
-                    List<UserPreferenceModel> content = dataSet[userId];
-                    content.Add(new UserPreferenceModel {ArticleId = articleId, Rating = rating});
-                    //dataSet[userId] = content;
-                }
-            }
+            });
 
-;
             return dataSet;
+        }
+
+        private static void Process(string line, SortedDictionary<int, List<UserPreferenceModel>> dataSet)
+        {
+            string[] row = line.Split(',');
+
+            int userId = int.Parse(row[0]);
+            int articleId = int.Parse(row[1]);
+            float rating = float.Parse(row[2]);
+
+            if (!dataSet.ContainsKey(userId))
+            {
+                List<UserPreferenceModel> content = new List<UserPreferenceModel> { new UserPreferenceModel { ArticleId = articleId, Rating = rating } };
+                dataSet.Add(userId, content);
+            }
+            else
+            {
+                List<UserPreferenceModel> content = dataSet[userId];
+                content.Add(new UserPreferenceModel { ArticleId = articleId, Rating = rating });
+            }
         }
     }
 }
