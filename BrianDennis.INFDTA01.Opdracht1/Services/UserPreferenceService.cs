@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using BrianDennis.INFDTA01.Opdracht1.Models;
 
 namespace BrianDennis.INFDTA01.Opdracht1.Services
 {
     public class UserPreferenceService
     {
-        public SortedDictionary<int, List<UserPreferenceModel>> Load()
+        public static SortedDictionary<int, Dictionary<int, float>> DataSet { get; set; }
+
+        public SortedDictionary<int, Dictionary<int, float>> Load()
         {
-            SortedDictionary<int, List<UserPreferenceModel>> dataSet = new SortedDictionary<int, List<UserPreferenceModel>>();
+            SortedDictionary<int, Dictionary<int, float>> dataSet = new SortedDictionary<int, Dictionary<int, float>>();
 
             var lines = File.ReadAllLines(Configuration.FilePath);
 
@@ -24,7 +25,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
             return dataSet;
         }
 
-        private static void Process(string line, SortedDictionary<int, List<UserPreferenceModel>> dataSet)
+        private static void Process(string line, SortedDictionary<int, Dictionary<int ,float>> dataSet)
         {
             string[] row = line.Split(',');
 
@@ -34,13 +35,13 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
 
             if (!dataSet.ContainsKey(userId))
             {
-                List<UserPreferenceModel> content = new List<UserPreferenceModel> { new UserPreferenceModel { ArticleId = articleId, Rating = rating } };
+                Dictionary<int, float> content = new Dictionary<int, float> {{articleId, rating}};
                 dataSet.Add(userId, content);
             }
             else
             {
-                List<UserPreferenceModel> content = dataSet[userId];
-                content.Add(new UserPreferenceModel { ArticleId = articleId, Rating = rating });
+                Dictionary<int, float> content = dataSet[userId];
+                content.Add(articleId, rating);
             }
         }
     }

@@ -1,0 +1,17 @@
+﻿@model EuclideanViewModel
+
+@{
+    ViewBag.Title = "Euclidean";
+}
+
+<h2>Euclidean</h2>
+
+@foreach (AlgorithmResultListItem item in Model.Data)
+{
+    <ul>
+        <li>TargetUser: @item.TargetUser</li>
+        <li>OtherUser: @item.OtherUser</li>
+        <li>Similarity: @item.Similarity</li>
+        <li>Number of missing articles for comparison: @item.NotSimilarArticles</li>
+    </ul>
+}

@@ -102,9 +102,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CosineViewModel.cs" />
+    <Compile Include="Models\PearsonViewModel.cs" />
+    <Compile Include="Models\EuclideanViewModel.cs" />
     <Compile Include="Models\IndexViewModel.cs" />
-    <Compile Include="Models\UserPreferenceModel.cs" />
+    <Compile Include="Models\AlgorithmResultListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\NearestNeighbours\AlgorithmFactory.cs" />
+    <Compile Include="Services\NearestNeighbours\CosineAlgorithm.cs" />
+    <Compile Include="Services\NearestNeighbours\EuclideanAlgorithm.cs" />
+    <Compile Include="Services\NearestNeighbours\IAlgorithm.cs" />
+    <Compile Include="Services\NearestNeighbours\PearsonAlgorithm.cs" />
     <Compile Include="Services\UserPreferenceService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +124,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Views\Main\Euclidean.cshtml" />
+    <Content Include="Views\Main\Pearson.cshtml" />
+    <Content Include="Views\Main\Cosine.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

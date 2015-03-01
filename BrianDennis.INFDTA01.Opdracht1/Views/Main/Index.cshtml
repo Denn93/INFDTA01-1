@@ -1,5 +1,5 @@
-﻿@using BrianDennis.INFDTA01.Opdracht1.Models
-@model BrianDennis.INFDTA01.Opdracht1.Models.IndexViewModel
+﻿@model IndexViewModel
+
 @{
     ViewBag.Title = "Index";
 }
@@ -8,13 +8,13 @@
 <ul>
 
 
-    @foreach (KeyValuePair<int, List<UserPreferenceModel>> item in Model.Data)
+    @foreach (KeyValuePair<int, Dictionary<int, float>> item in Model.Data)
     {
         <li>UserID: @item.Key</li>
     <ul>
-        @foreach (UserPreferenceModel preferences in item.Value)
+        @foreach (KeyValuePair<int, float> preferences in item.Value)
         {
-            <li>Article Id: @preferences.ArticleId - Rating: @preferences.Rating</li>
+            <li>Article Id: @preferences.Key - Rating: @preferences.Value</li>
         }
     </ul>
     }
