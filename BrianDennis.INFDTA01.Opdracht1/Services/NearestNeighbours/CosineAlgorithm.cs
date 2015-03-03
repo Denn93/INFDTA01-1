@@ -18,6 +18,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
             foreach (KeyValuePair<int, Dictionary<int, float>> user in dataSet)
             {
                 if (user.Key == targetUserId) continue;
+                
                 Dictionary<int, float> otherUser = user.Value;
 
                 double similarity = GetCosineSimilarity(targetUser.Values.ToList(), otherUser.Values.ToList());
@@ -39,8 +40,8 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
             for (int i = 0; i < count; i++)
             {
                 dot += targetList[i] * otherList[i];
-                vectorLength1 += Math.Pow(targetList[i], 2);
-                vectorLength2 += Math.Pow(otherList[i], 2);
+                vectorLength1 += Math.Pow(Math.Abs(targetList[i]), 2);
+                vectorLength2 += Math.Pow(Math.Abs(otherList[i]), 2);
             }
 
             return dot / (Math.Sqrt(vectorLength1) * Math.Sqrt(vectorLength2));
