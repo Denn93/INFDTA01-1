@@ -18,10 +18,25 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
             foreach (KeyValuePair<int, Dictionary<int, float>> user in dataSet)
             {
                 if (user.Key == targetUserId) continue;
-                
-                Dictionary<int, float> otherUser = user.Value;
+                if (targetUser.Count(m=>user.Value.ContainsKey(m.Key)) == 0) continue;
 
-                double similarity = GetCosineSimilarity(targetUser.Values.ToList(), otherUser.Values.ToList());
+
+                KeyValuePair<int, float>[] targetUserArray = targetUser.OrderBy(m => m.Key).ToArray();
+                Dictionary<int, float> otherUserArray = user.Value.OrderBy(m => m.Key).ToDictionary(m=>m.Key, m=>m.Value);
+
+                List<float> targetUserRatings = new List<float>();
+                List<float> otherUserRatings = new List<float>();
+
+                for (int i = 0; i < targetUserArray.Count(); i++)
+                {
+                    targetUserRatings.Add(targetUserArray[i].Value);
+
+                    otherUserRatings.Add(otherUserArray.ContainsKey(targetUserArray[i].Key)
+                        ? otherUserArray[targetUserArray[i].Key]
+                        : 0);
+                }
+
+                double similarity = GetCosineSimilarity(targetUserRatings, otherUserRatings);
 
                 ResultAdd(result, AlgorithmResultListItem.Build(new Tuple<int, int, double, int>(targetUserId, user.Key, similarity, 0)), similarity);
             }
