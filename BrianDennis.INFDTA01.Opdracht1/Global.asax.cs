@@ -11,8 +11,8 @@ namespace BrianDennis.INFDTA01.Opdracht1
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            UserPreferenceService service = new UserPreferenceService();
-            UserPreferenceService.DataSet = service.Load();
+            UserItemDataSetFactory.Build(UserItemDataSetFactory.DataSets.UserItem);
+            UserItemDataSetFactory.Build(UserItemDataSetFactory.DataSets.UserItemEdited);
         }
     }
 }

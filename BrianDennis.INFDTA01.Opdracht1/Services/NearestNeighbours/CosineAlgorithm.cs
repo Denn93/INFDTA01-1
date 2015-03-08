@@ -5,17 +5,20 @@ using BrianDennis.INFDTA01.Opdracht1.Models;
 
 namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 {
-    public class CosineAlgorithm : IAlgorithm
+    public class CosineAAlgorithm : AAlgorithm
     {
+        public CosineAAlgorithm(SortedDictionary<int, Dictionary<int, float>> dataSet) 
+            : base(dataSet)
+        {}
+
         public override List<AlgorithmResultListItem> Calculate(int targetUserId)
         {
-            SortedDictionary<int, Dictionary<int, float>> dataSet = UserPreferenceService.DataSet;
             List<AlgorithmResultListItem> result = new List<AlgorithmResultListItem>();
-            Dictionary<int, float> targetUser = dataSet[targetUserId];
+            Dictionary<int, float> targetUser = DataSet[targetUserId];
 
             ThresHold = Configuration.InitialThresHold;
 
-            foreach (KeyValuePair<int, Dictionary<int, float>> user in dataSet)
+            foreach (KeyValuePair<int, Dictionary<int, float>> user in DataSet)
             {
                 if (user.Key == targetUserId) continue;
                 if (targetUser.Count(m=>user.Value.ContainsKey(m.Key)) == 0) continue;

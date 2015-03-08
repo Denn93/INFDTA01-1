@@ -4,9 +4,14 @@ namespace BrianDennis.INFDTA01.Opdracht1
 {
     public static class Configuration
     {
-        public static string FilePath
+        public static string UserItemCsvPath
         {
-            get { return ConfigurationManager.AppSettings["DatasetPath"]; }
+            get { return ConfigurationManager.AppSettings["UserItemCsv"]; }
+        }
+        
+        public static string UserItemEditedCsvPath
+        {
+            get { return ConfigurationManager.AppSettings["UserItemEditedCsv"]; }
         }
 
         public static double InitialThresHold
