@@ -9,8 +9,9 @@ namespace BrianDennis.INFDTA01.Opdracht1
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute("Default", "{view}/{action}", new { controller = "Main", action = "Index", view = "UserItem"});
+            routes.MapRoute("UserItem", "{view}/{action}", new { controller = "Main", action = "Index", view = "UserItem"});
 
+            
         }
     }
 }

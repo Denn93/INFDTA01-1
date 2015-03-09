@@ -14,6 +14,11 @@ namespace BrianDennis.INFDTA01.Opdracht1
             get { return ConfigurationManager.AppSettings["UserItemEditedCsv"]; }
         }
 
+        public static string MovieLensData
+        {
+            get { return ConfigurationManager.AppSettings["MovieLensData"]; }
+        }
+
         public static double InitialThresHold
         {
             get { return double.Parse(ConfigurationManager.AppSettings["InitialThresHold"]); }

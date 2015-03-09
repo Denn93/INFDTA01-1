@@ -20,7 +20,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
         {
             if (similarity > ThresHold)
             {
-                if (list.Count < 3)
+                if (list.Count < 5)
                     list.Add(item);
                 else
                 {

@@ -94,6 +94,7 @@
     <Content Include="Web.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="userItemEdited.csv" />
+    <Content Include="u.data" />
     <None Include="userItem.csv" />
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +111,7 @@
     <Compile Include="Models\AlgorithmResultListItem.cs" />
     <Compile Include="Models\PredictiveRatingViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\MovieLensDataSet.cs" />
     <Compile Include="Services\NearestNeighbours\AlgorithmFactory.cs" />
     <Compile Include="Services\NearestNeighbours\CosineAlgorithm.cs" />
     <Compile Include="Services\NearestNeighbours\EuclideanAlgorithm.cs" />
@@ -131,6 +133,7 @@
     <Content Include="Views\Main\Pearson.cshtml" />
     <Content Include="Views\Main\Cosine.cshtml" />
     <Content Include="Views\Main\Predictive.cshtml" />
+    <Content Include="Views\MovieLens\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

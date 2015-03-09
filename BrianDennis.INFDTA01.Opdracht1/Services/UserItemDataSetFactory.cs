@@ -12,21 +12,26 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
         {
             UserItem,
             UserItemEdited,
+            MovieLens,
             NotFound
         }
 
         public static SortedDictionary<int, Dictionary<int, float>> UserItemDataSet { get; set; }
         public static SortedDictionary<int, Dictionary<int, float>> UserItemEditedDataSet { get; set; }
-
+        public static SortedDictionary<int, Dictionary<int, float>> MovieLensDataSet { get; set; }
+   
         public static SortedDictionary<int, Dictionary<int, float>> Build(DataSets dataSet)
         {
             switch (dataSet)
             {
                 case DataSets.UserItem:
-                    return UserItemDataSet ?? (UserItemDataSet = LoadingConstruct(Configuration.UserItemCsvPath));
+                    return UserItemDataSet ?? (UserItemDataSet = LoadingConstruct(Configuration.UserItemCsvPath, ','));
                 case DataSets.UserItemEdited:
                     return UserItemEditedDataSet ??
-                           (UserItemEditedDataSet = LoadingConstruct(Configuration.UserItemEditedCsvPath));
+                           (UserItemEditedDataSet = LoadingConstruct(Configuration.UserItemEditedCsvPath, ','));
+                    case DataSets.MovieLens:
+                        return MovieLensDataSet ??
+                           (MovieLensDataSet = LoadingConstruct(Configuration.MovieLensData, '\t'));
                 case DataSets.NotFound:
                     return null;
             }
@@ -34,7 +39,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
             return null;
         }
 
-        private static SortedDictionary<int, Dictionary<int, float>> LoadingConstruct(string filePath)
+        private static SortedDictionary<int, Dictionary<int, float>> LoadingConstruct(string filePath, char split)
         {
             SortedDictionary<int, Dictionary<int, float>> dataSet = new SortedDictionary<int, Dictionary<int, float>>();
 
@@ -44,16 +49,16 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
             {
                 lock (dataSet)
                 {
-                    ProcessConstruct(line, dataSet);
+                    ProcessConstruct(line, split, dataSet);
                 }
             });
 
             return dataSet;
         }
 
-        private static void ProcessConstruct(string line, IDictionary<int, Dictionary<int, float>> dataSet)
+        private static void ProcessConstruct(string line, char split, IDictionary<int, Dictionary<int, float>> dataSet)
         {
-            string[] row = line.Split(',');
+            string[] row = line.Split(split);
 
             int userId = int.Parse(row[0]);
             int articleId = int.Parse(row[1]);

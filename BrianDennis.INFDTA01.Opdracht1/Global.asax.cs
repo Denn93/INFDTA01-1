@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
-using BrianDennis.INFDTA01.Opdracht1.Services;
 
 namespace BrianDennis.INFDTA01.Opdracht1
 {
@@ -10,9 +9,6 @@ namespace BrianDennis.INFDTA01.Opdracht1
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-
-            UserItemDataSetFactory.Build(UserItemDataSetFactory.DataSets.UserItem);
-            UserItemDataSetFactory.Build(UserItemDataSetFactory.DataSets.UserItemEdited);
         }
     }
 }
