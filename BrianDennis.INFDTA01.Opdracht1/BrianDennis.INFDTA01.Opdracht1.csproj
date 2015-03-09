@@ -104,11 +104,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CosineViewModel.cs" />
-    <Compile Include="Models\PearsonViewModel.cs" />
-    <Compile Include="Models\EuclideanViewModel.cs" />
     <Compile Include="Models\IndexViewModel.cs" />
     <Compile Include="Models\AlgorithmResultListItem.cs" />
+    <Compile Include="Models\PlainViewModel.cs" />
     <Compile Include="Models\PredictiveRatingViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\MovieLensDataSet.cs" />

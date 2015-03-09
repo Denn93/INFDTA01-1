@@ -20,7 +20,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
 
         public ActionResult Euclidean(int? targetUser)
         {
-            EuclideanViewModel model = new EuclideanViewModel
+            PlainViewModel model = new PlainViewModel
             {
                 Data =
                     AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Euclidean,
@@ -32,7 +32,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
 
         public ActionResult Pearson(int? targetUser)
         {
-            PearsonViewModel model = new PearsonViewModel
+            PlainViewModel model = new PlainViewModel
             {
                 Data =
                     AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Pearson, UserItemDataSetFactory.GetDatasetByString(RetrieveView()))
@@ -44,7 +44,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
 
         public ActionResult Cosine(int? targetUser)
         {
-            CosineViewModel model = new CosineViewModel
+            PlainViewModel model = new PlainViewModel
             {
                 Data =
                     AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Cosine, UserItemDataSetFactory.GetDatasetByString(RetrieveView()))

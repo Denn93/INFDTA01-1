@@ -27,14 +27,28 @@
             </div>
         </div>
     </div>
+    
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Index", "Index", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
+                <li> @Html.ActionLink("Euclidean", "Euclidean", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
+                <li>@Html.ActionLink("Pearson", "Pearson", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
+                <li>@Html.ActionLink("Cosine", "Cosine", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
+                <li>@Html.ActionLink("Predicted Rating", "Predictive", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
+            </ul>
+        </div>
+    </div>
 
     <div class="container body-content">
-        @Html.ActionLink("Index", "Index", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)
-        @Html.ActionLink("Euclidean", "Euclidean", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)
-        @Html.ActionLink("Pearson", "Pearson", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)
-        @Html.ActionLink("Cosine", "Cosine", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)
-        @Html.ActionLink("Predicted Rating", "Predictive", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)
-        
+                
         @RenderBody()
         <hr />
         <footer>
