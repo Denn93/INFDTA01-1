@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Web.Routing;
 using BrianDennis.INFDTA01.Opdracht1.Models;
 using BrianDennis.INFDTA01.Opdracht1.Services;
 using BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours;
@@ -8,10 +9,12 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
 {
     public class MainController : Controller
     {
+        #region GET Requests
+
         public ActionResult Index()
         {
             return
-                View(new IndexViewModel {Data = UserItemDataSetFactory.Build(UserItemDataSetFactory.DataSets.UserItem)});
+                View(new IndexViewModel { Data = UserItemDataSetFactory.Build(UserItemDataSetFactory.GetDatasetByString(RetrieveView())) });
         }
 
         public ActionResult Euclidean()
@@ -20,7 +23,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
             {
                 Data =
                     AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Euclidean,
-                        UserItemDataSetFactory.DataSets.UserItem).Calculate(7)
+                        UserItemDataSetFactory.GetDatasetByString(RetrieveView())).Calculate(7)
             };
 
             return View(model);
@@ -31,7 +34,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
             PearsonViewModel model = new PearsonViewModel
             {
                 Data =
-                    AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Pearson, UserItemDataSetFactory.DataSets.UserItem)
+                    AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Pearson, UserItemDataSetFactory.GetDatasetByString(RetrieveView()))
                         .Calculate(7)
             };
 
@@ -43,7 +46,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
             CosineViewModel model = new CosineViewModel
             {
                 Data =
-                    AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Cosine, UserItemDataSetFactory.DataSets.UserItem)
+                    AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Cosine, UserItemDataSetFactory.GetDatasetByString(RetrieveView()))
                         .Calculate(7)
             };
 
@@ -55,11 +58,11 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
             PredictiveRatingViewModel model = new PredictiveRatingViewModel();
 
             List<AlgorithmResultListItem> pearsonListData =
-                AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Pearson, UserItemDataSetFactory.DataSets.UserItem)
+                AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Pearson, UserItemDataSetFactory.GetDatasetByString(RetrieveView()))
                     .Calculate(7);
 
             PredictingRatingAlgorithm predictive = (PredictingRatingAlgorithm)
-                AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Predictive, UserItemDataSetFactory.DataSets.UserItem);
+                AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Predictive, UserItemDataSetFactory.GetDatasetByString(RetrieveView()));
 
             predictive.PearsonListData = pearsonListData;
             predictive.Calculate(7);
@@ -68,5 +71,16 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
 
             return View(model);
         }
+
+        #endregion
+
+        #region Additional Methods
+
+        private string RetrieveView()
+        {
+            return ControllerContext.RouteData.Values["view"].ToString();
+        }
+
+        #endregion
     }
 }

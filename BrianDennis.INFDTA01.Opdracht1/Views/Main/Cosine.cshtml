@@ -2,16 +2,8 @@
 @{
     ViewBag.Title = "Cosine";
 }
-@Html.ActionLink("Index", "Index", "Main")
-@Html.ActionLink("Euclidean", "Euclidean", "Main")
-@Html.ActionLink("Pearson", "Pearson", "Main")
-@Html.ActionLink("Cosine", "Cosine", "Main")
-@Html.ActionLink("Predicted Rating", "Predictive", "Main")
 
-
-
-
-<h2>Cosine</h2>
+<h2>Cosine - @ViewContext.RouteData.Values["view"]</h2>
 
 @foreach (AlgorithmResultListItem item in Model.Data)
 {

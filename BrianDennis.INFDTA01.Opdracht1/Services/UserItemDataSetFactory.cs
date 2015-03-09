@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BrianDennis.INFDTA01.Opdracht1.Services
@@ -9,7 +11,8 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
         public enum DataSets
         {
             UserItem,
-            UserItemEdited
+            UserItemEdited,
+            NotFound
         }
 
         public static SortedDictionary<int, Dictionary<int, float>> UserItemDataSet { get; set; }
@@ -24,6 +27,8 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
                 case DataSets.UserItemEdited:
                     return UserItemEditedDataSet ??
                            (UserItemEditedDataSet = LoadingConstruct(Configuration.UserItemEditedCsvPath));
+                case DataSets.NotFound:
+                    return null;
             }
 
             return null;
@@ -64,6 +69,14 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
                 Dictionary<int, float> content = dataSet[userId];
                 content.Add(articleId, rating);
             }    
+        }
+
+        public static DataSets GetDatasetByString(string value)
+        {
+            foreach (DataSets dataSet in Enum.GetValues(typeof(DataSets)).Cast<DataSets>().Where(dataSet => dataSet.ToString().ToLower().Equals(value.ToLower())))
+                return dataSet;
+
+            return DataSets.NotFound;
         }
     }
 }

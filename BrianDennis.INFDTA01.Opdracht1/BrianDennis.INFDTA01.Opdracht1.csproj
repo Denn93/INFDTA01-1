@@ -99,7 +99,6 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="Controllers\EditedController .cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -132,11 +131,6 @@
     <Content Include="Views\Main\Pearson.cshtml" />
     <Content Include="Views\Main\Cosine.cshtml" />
     <Content Include="Views\Main\Predictive.cshtml" />
-    <Content Include="Views\Edited\Cosine.cshtml" />
-    <Content Include="Views\Edited\Euclidean.cshtml" />
-    <Content Include="Views\Edited\Index.cshtml" />
-    <Content Include="Views\Edited\Pearson.cshtml" />
-    <Content Include="Views\Edited\Predictive.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
