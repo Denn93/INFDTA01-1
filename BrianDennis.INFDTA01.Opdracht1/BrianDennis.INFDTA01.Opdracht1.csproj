@@ -39,6 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -48,6 +49,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -108,8 +110,8 @@
     <Compile Include="Models\AlgorithmResultListItem.cs" />
     <Compile Include="Models\PlainViewModel.cs" />
     <Compile Include="Models\PredictiveRatingViewModel.cs" />
+    <Compile Include="Models\UserPreference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\MovieLensDataSet.cs" />
     <Compile Include="Services\NearestNeighbours\AlgorithmFactory.cs" />
     <Compile Include="Services\NearestNeighbours\CosineAlgorithm.cs" />
     <Compile Include="Services\NearestNeighbours\EuclideanAlgorithm.cs" />
