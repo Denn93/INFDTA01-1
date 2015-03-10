@@ -15,13 +15,29 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
             List<AlgorithmResultListItem> result = new List<AlgorithmResultListItem>();
             Dictionary<int, float> targetArticles = DataSet[targetUser];
 
-            double totalPearsonCoefficient = PearsonListData.Sum(m => m.Similarity);
-
             PredictiveRatings = new Dictionary<int, double>();
+            Dictionary<int, double> articlesTotals = new Dictionary<int, double>();
 
             foreach (AlgorithmResultListItem algorithmResultListItem in PearsonListData)
             {
                 Dictionary<int, float> articles = DataSet[algorithmResultListItem.OtherUser];
+
+                foreach (KeyValuePair<int, float> article in articles)
+                {
+                    if (articlesTotals.ContainsKey(article.Key))
+                        articlesTotals[article.Key] += algorithmResultListItem.Similarity;
+                    else
+                    {
+                        articlesTotals.Add(article.Key, algorithmResultListItem.Similarity);
+                    }
+                }
+            }
+
+            foreach (AlgorithmResultListItem algorithmResultListItem in PearsonListData)
+            {
+                Dictionary<int, float> articles = DataSet[algorithmResultListItem.OtherUser];
+
+
                 foreach (
                     KeyValuePair<int, float> article in
                         articles.Where(article => !targetArticles.ContainsKey(article.Key)))
@@ -30,11 +46,11 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
                     {
                         PredictiveRatings[article.Key] = PredictiveRatings[article.Key] +
                                                          CalculateWeightedRating(algorithmResultListItem.Similarity,
-                                                             totalPearsonCoefficient, article.Value);
+                                                             articlesTotals[article.Key], article.Value);
                     }
                     else
                         PredictiveRatings.Add(article.Key,
-                            CalculateWeightedRating(algorithmResultListItem.Similarity, totalPearsonCoefficient,
+                            CalculateWeightedRating(algorithmResultListItem.Similarity, articlesTotals[article.Key],
                                 article.Value));
                 }
             }
@@ -44,7 +60,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 
         private static double CalculateWeightedRating(double pearson, double total, double rating)
         {
-            return pearson/total*rating;
+            return (pearson/total)*rating;
         }
 
         public List<AlgorithmResultListItem> PearsonListData { get; set; }
