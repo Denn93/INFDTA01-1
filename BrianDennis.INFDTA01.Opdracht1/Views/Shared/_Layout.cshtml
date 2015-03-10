@@ -1,15 +1,33 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <script src="~/Scripts/modernizr-2.6.2.js"></script>
-</head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - INFDTA01-1 Assignments</title>
+        <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("UserItemCsv", "Index", "Main", new { view = "UserItem" }, new { @class = "navbar-brand" })
+                    @Html.ActionLink("UserItemEditedCsv", "Index", "Main",new { view = "UserItemEdited" }, new { @class = "navbar-brand" })
+                    @Html.ActionLink("MovieLens", "Index", "Main",new { view = "MovieLens" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -17,46 +35,28 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("UserItemCsv", "Index", "Main", new { view = "UserItem" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("UserItemEditedCsv", "Index", "Main",new { view = "UserItemEdited" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("MovieLens", "Index", "Main",new { view = "MovieLens" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Index", "Index", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
+                    <li> @Html.ActionLink("Euclidean", "Euclidean", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
+                    <li>@Html.ActionLink("Pearson", "Pearson", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
+                    <li>@Html.ActionLink("Cosine", "Cosine", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
+                    <li>@Html.ActionLink("Predicted Rating", "Predictive", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
                 </ul>
             </div>
         </div>
-    </div>
-    
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Index", "Index", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
-                <li> @Html.ActionLink("Euclidean", "Euclidean", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
-                <li>@Html.ActionLink("Pearson", "Pearson", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
-                <li>@Html.ActionLink("Cosine", "Cosine", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
-                <li>@Html.ActionLink("Predicted Rating", "Predictive", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
-            </ul>
-        </div>
-    </div>
 
-    <div class="container body-content">
+        <div class="container body-content">
                 
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Dennis & Brian</p>
-        </footer>
-    </div>
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - Dennis & Brian</p>
+            </footer>
+        </div>
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-</body>
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+    </body>
 </html>

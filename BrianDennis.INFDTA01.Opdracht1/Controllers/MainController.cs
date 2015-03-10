@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
-using System.Web.Routing;
 using BrianDennis.INFDTA01.Opdracht1.Models;
 using BrianDennis.INFDTA01.Opdracht1.Services;
 using BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours;
@@ -14,8 +12,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
 
         public ActionResult Index()
         {
-            return
-                View(new IndexViewModel { Data = UserItemDataSetFactory.Build(UserItemDataSetFactory.GetDatasetByString(RetrieveView())) });
+            return RetrieveView().Equals("MovieLens") ? View("Error") : View(new IndexViewModel { Data = UserItemDataSetFactory.Build(UserItemDataSetFactory.GetDatasetByString(RetrieveView())) });
         }
 
         public ActionResult Euclidean(int? targetUser)

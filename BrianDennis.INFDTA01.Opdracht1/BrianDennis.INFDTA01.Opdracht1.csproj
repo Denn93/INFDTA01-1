@@ -132,6 +132,7 @@
     <Content Include="Views\Main\Cosine.cshtml" />
     <Content Include="Views\Main\Predictive.cshtml" />
     <Content Include="Views\MovieLens\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
