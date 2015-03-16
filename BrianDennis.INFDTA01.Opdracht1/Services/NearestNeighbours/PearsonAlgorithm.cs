@@ -16,7 +16,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
             Dictionary<int, float> targetUser = DataSet[targetUserId];
             List<AlgorithmResultListItem> resultList = new List<AlgorithmResultListItem>();
 
-            ThresHold = Configuration.InitialThresHold;
+            ThresHold = double.Parse(Configuration.Targets(View)["InitialThreshold"]);
 
             foreach (KeyValuePair<int, Dictionary<int, float>> otherUser in DataSet)
             {
