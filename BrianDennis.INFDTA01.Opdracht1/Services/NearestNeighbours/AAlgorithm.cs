@@ -11,8 +11,9 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
         public abstract List<AlgorithmResultListItem> Calculate(int targetUser);
         protected SortedDictionary<int, Dictionary<int, float>> DataSet;
 
-        protected AAlgorithm(SortedDictionary<int, Dictionary<int, float>> dataSet)
+        protected AAlgorithm(SortedDictionary<int, Dictionary<int, float>> dataSet, string view)
         {
+            View = view;
             DataSet = dataSet;
         }
 
@@ -20,7 +21,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
         {
             if (similarity > ThresHold)
             {
-                if (list.Count < 3)
+                if (list.Count < int.Parse(Configuration.Targets(View)["NearestNeighbours"]))
                     list.Add(item);
                 else
                 {
@@ -37,5 +38,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
                 }
             }
         }
+
+        protected string View { get; private set; }
     }
 }

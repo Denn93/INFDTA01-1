@@ -103,11 +103,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\MatrixController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\IndexViewModel.cs" />
     <Compile Include="Models\AlgorithmResultListItem.cs" />
+    <Compile Include="Models\MatrixResultModel.cs" />
     <Compile Include="Models\PlainViewModel.cs" />
     <Compile Include="Models\PredictiveRatingViewModel.cs" />
     <Compile Include="Models\UserPreference.cs" />
@@ -133,8 +135,8 @@
     <Content Include="Views\Main\Pearson.cshtml" />
     <Content Include="Views\Main\Cosine.cshtml" />
     <Content Include="Views\Main\Predictive.cshtml" />
-    <Content Include="Views\MovieLens\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Matrix\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

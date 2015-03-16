@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System.Collections.Specialized;
+using System.Configuration;
 
 namespace BrianDennis.INFDTA01.Opdracht1
 {
@@ -22,6 +23,12 @@ namespace BrianDennis.INFDTA01.Opdracht1
         public static double InitialThresHold
         {
             get { return double.Parse(ConfigurationManager.AppSettings["InitialThresHold"]); }
+        }
+
+        public static NameValueCollection Targets(string view)
+        {
+            NameValueCollection coll  = (NameValueCollection) ConfigurationManager.GetSection("targets/" + view);
+            return coll;
         }
     }
 }

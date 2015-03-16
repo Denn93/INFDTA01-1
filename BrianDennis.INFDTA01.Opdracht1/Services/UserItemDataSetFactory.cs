@@ -13,8 +13,8 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
         /// </summary>
         public enum DataSets
         {
-            UserItem,
-            UserItemEdited,
+            userItemCsv,
+            userItemEditedCsv,
             MovieLens,
             NotFound
         }
@@ -30,14 +30,16 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
         {
             switch (dataSet)
             {
-                case DataSets.UserItem:
-                    return UserItemDataSet ?? (UserItemDataSet = LoadingConstruct(Configuration.UserItemCsvPath, ','));
-                case DataSets.UserItemEdited:
+                case DataSets.userItemCsv:
+                    return UserItemDataSet ??
+                           (UserItemDataSet = LoadingConstruct(Configuration.Targets(dataSet.ToString())["Path"], ','));
+                case DataSets.userItemEditedCsv:
                     return UserItemEditedDataSet ??
-                           (UserItemEditedDataSet = LoadingConstruct(Configuration.UserItemEditedCsvPath, ','));
+                           (UserItemEditedDataSet =
+                               LoadingConstruct(Configuration.Targets(dataSet.ToString())["Path"], ','));
                     case DataSets.MovieLens:
-                        return MovieLensDataSet ??
-                           (MovieLensDataSet = LoadingConstruct(Configuration.MovieLensData, '\t'));
+                    return MovieLensDataSet ??
+                           (MovieLensDataSet = LoadingConstruct(Configuration.Targets(dataSet.ToString())["Path"], '\t'));
                 case DataSets.NotFound:
                     return null;
             }

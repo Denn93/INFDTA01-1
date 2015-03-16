@@ -7,8 +7,8 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 {
     public class CosineAAlgorithm : AAlgorithm
     {
-        public CosineAAlgorithm(SortedDictionary<int, Dictionary<int, float>> dataSet) 
-            : base(dataSet)
+        public CosineAAlgorithm(SortedDictionary<int, Dictionary<int, float>> dataSet, string view) 
+            : base(dataSet, view)
         {}
 
         public override List<AlgorithmResultListItem> Calculate(int targetUserId)

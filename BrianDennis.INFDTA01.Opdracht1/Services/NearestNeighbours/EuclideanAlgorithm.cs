@@ -6,8 +6,8 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 {
     public class EuclideanAAlgorithm : AAlgorithm
     {
-        public EuclideanAAlgorithm(SortedDictionary<int, Dictionary<int, float>> dataSet) 
-            : base(dataSet)
+        public EuclideanAAlgorithm(SortedDictionary<int, Dictionary<int, float>> dataSet, string view) 
+            : base(dataSet, view)
         {}
 
         public override List<AlgorithmResultListItem> Calculate(int targetUserId)
