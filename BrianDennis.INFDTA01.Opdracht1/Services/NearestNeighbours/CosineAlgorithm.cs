@@ -1,41 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BrianDennis.INFDTA01.Opdracht1.Extensions;
 using BrianDennis.INFDTA01.Opdracht1.Models;
 
 namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 {
     public class CosineAAlgorithm : AAlgorithm
     {
-        public CosineAAlgorithm(SortedDictionary<int, Dictionary<int, float>> dataSet, string view) 
+        public CosineAAlgorithm(SortedDictionary<int, List<UserPreference>> dataSet, string view) 
             : base(dataSet, view)
         {}
 
         public override List<AlgorithmResultListItem> Calculate(int targetUserId)
         {
             List<AlgorithmResultListItem> result = new List<AlgorithmResultListItem>();
-            Dictionary<int, float> targetUser = DataSet[targetUserId];
+            List<UserPreference> targetUser = DataSet[targetUserId];
 
             ThresHold = double.Parse(Configuration.Targets(View)["InitialThreshold"]);
 
-            foreach (KeyValuePair<int, Dictionary<int, float>> user in DataSet)
+            foreach (KeyValuePair<int, List<UserPreference>> user in DataSet)
             {
                 if (user.Key == targetUserId) continue;
-                if (targetUser.Count(m=>user.Value.ContainsKey(m.Key)) == 0) continue;
+                if (targetUser.Count(m=>user.Value.ContainsMovie(m.MovieId)) == 0) continue;
 
-
-                KeyValuePair<int, float>[] targetUserArray = targetUser.OrderBy(m => m.Key).ToArray();
-                Dictionary<int, float> otherUserArray = user.Value.OrderBy(m => m.Key).ToDictionary(m=>m.Key, m=>m.Value);
+                UserPreference[] targetUserArray = targetUser.OrderBy(m => m.MovieId).ToArray();
+                Dictionary<int, float> otherUserArray = user.Value.OrderBy(m => m.MovieId).ToDictionary(m=>m.MovieId, m=>m.Rating);
 
                 List<float> targetUserRatings = new List<float>();
                 List<float> otherUserRatings = new List<float>();
 
                 for (int i = 0; i < targetUserArray.Count(); i++)
                 {
-                    targetUserRatings.Add(targetUserArray[i].Value);
+                    targetUserRatings.Add(targetUserArray[i].Rating);
 
-                    otherUserRatings.Add(otherUserArray.ContainsKey(targetUserArray[i].Key)
-                        ? otherUserArray[targetUserArray[i].Key]
+                    otherUserRatings.Add(otherUserArray.ContainsKey(targetUserArray[i].MovieId)
+                        ? otherUserArray[targetUserArray[i].MovieId]
                         : 0);
                 }
 

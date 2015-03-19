@@ -105,6 +105,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\MatrixController.cs" />
+    <Compile Include="Extensions\UserPreferenceListExtension.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

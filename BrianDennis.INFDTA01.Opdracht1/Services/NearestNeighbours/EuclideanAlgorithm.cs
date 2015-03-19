@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BrianDennis.INFDTA01.Opdracht1.Models;
 
 namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 {
     public class EuclideanAAlgorithm : AAlgorithm
     {
-        public EuclideanAAlgorithm(SortedDictionary<int, Dictionary<int, float>> dataSet, string view) 
+        public EuclideanAAlgorithm(SortedDictionary<int, List<UserPreference>> dataSet, string view) 
             : base(dataSet, view)
         {}
 
@@ -14,25 +15,26 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
         {
             List<AlgorithmResultListItem> result = new List<AlgorithmResultListItem>();
 
-            Dictionary<int, float> target = DataSet[targetUserId];
+            List<UserPreference> target = DataSet[targetUserId];
             ThresHold = double.Parse(Configuration.Targets(View)["InitialThreshold"]);
 
-            foreach (KeyValuePair<int, Dictionary<int, float>> user in DataSet)
+            foreach (KeyValuePair<int, List<UserPreference>> user in DataSet)
             {
                 if (user.Key == targetUserId) continue;
 
                 double distance = 0;
                 int articlesNotFound = 0;
-                foreach (KeyValuePair<int, float> preference in user.Value)
+                foreach (UserPreference preference in user.Value)
                 {
-                    if (!target.ContainsKey(preference.Key))
+                    if (target.Count(m => m.MovieId == preference.MovieId) == 0)
                     {
                         articlesNotFound ++;
                         continue;
                     }
 
-                    float targetUserRating = target[preference.Key];
-                    distance += Math.Pow(preference.Value - targetUserRating, 2);
+                    float targetUserRating = target.Where(m => m.MovieId == preference.MovieId).Select(m => m.Rating).Single();
+
+                    distance += Math.Pow(preference.Rating - targetUserRating, 2);
                 }
 
                 double similarity = 1/(1 + Math.Sqrt(distance));

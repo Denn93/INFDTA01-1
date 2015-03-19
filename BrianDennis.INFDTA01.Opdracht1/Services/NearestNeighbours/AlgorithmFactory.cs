@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BrianDennis.INFDTA01.Opdracht1.Models;
 
 namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 {
@@ -14,7 +15,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 
         public static AAlgorithm Build(Algorithm algorithm, UserItemDataSetFactory.DataSets dataSetEnum, string view)
         {
-            SortedDictionary<int, Dictionary<int, float>> dataSet = UserItemDataSetFactory.Build(dataSetEnum);
+            SortedDictionary<int, List<UserPreference>> dataSet = UserItemDataSetFactory.Build(dataSetEnum);
 
             switch (algorithm)
             {

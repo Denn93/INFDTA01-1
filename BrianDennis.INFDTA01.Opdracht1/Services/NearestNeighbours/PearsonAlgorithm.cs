@@ -1,33 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BrianDennis.INFDTA01.Opdracht1.Extensions;
 using BrianDennis.INFDTA01.Opdracht1.Models;
 
 namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 {
     public class PearsonAAlgorithm : AAlgorithm
     {
-        public PearsonAAlgorithm(SortedDictionary<int, Dictionary<int, float>> dataSet, string view) 
+        public PearsonAAlgorithm(SortedDictionary<int, List<UserPreference>> dataSet, string view) 
             : base(dataSet, view)
         {}
 
         public override List<AlgorithmResultListItem> Calculate(int targetUserId)
         {
-            Dictionary<int, float> targetUser = DataSet[targetUserId];
+            List<UserPreference> targetUser = DataSet[targetUserId];
             List<AlgorithmResultListItem> resultList = new List<AlgorithmResultListItem>();
 
             ThresHold = double.Parse(Configuration.Targets(View)["InitialThreshold"]);
 
-            foreach (KeyValuePair<int, Dictionary<int, float>> otherUser in DataSet)
+            foreach (KeyValuePair<int, List<UserPreference>> otherUser in DataSet)
             {
                 if (otherUser.Key == targetUserId) continue;
 
-                Dictionary<int, float> newTarget =
+                Dictionary<int, float> newTarget = targetUser.Where(m => otherUser.Value.ContainsMovie(m.MovieId))
+                    .Select(m => m)
+                    .OrderBy(m => m.MovieId)
+                    .ToDictionary(m => m.MovieId, m => m.Rating);
+
+                Dictionary<int, float> newOther = otherUser.Value.Where(m => newTarget.ContainsKey(m.MovieId))
+                    .Select(m => m)
+                    .OrderBy(m => m.MovieId)
+                    .ToDictionary(m => m.MovieId, m => m.Rating);
+
+
+                /*Dictionary<int, float> newTarget =
                     targetUser.Where(m => otherUser.Value.ContainsKey(m.Key))
                         .Select(m => m)
                         .OrderBy(m => m.Key)
                         .ToDictionary(m=>m.Key, m=>m.Value);
-
+*//*
                 Dictionary<int, float> newOther =
                     otherUser.Value.Where(
                         m =>
@@ -35,7 +47,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
                         .Select(m => m)
                         .OrderBy(m => m.Key)
                         .ToDictionary(m => m.Key, m => m.Value);
-
+*/
                 KeyValuePair<int, float>[] targetTemp = newTarget.ToArray();
                 KeyValuePair<int, float>[] otherTemp = newOther.ToArray();
 

@@ -9,9 +9,9 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
         protected double ThresHold { get; set; }
 
         public abstract List<AlgorithmResultListItem> Calculate(int targetUser);
-        protected SortedDictionary<int, Dictionary<int, float>> DataSet;
+        protected SortedDictionary<int, List<UserPreference>> DataSet;
 
-        protected AAlgorithm(SortedDictionary<int, Dictionary<int, float>> dataSet, string view)
+        protected AAlgorithm(SortedDictionary<int, List<UserPreference>> dataSet, string view)
         {
             View = view;
             DataSet = dataSet;
