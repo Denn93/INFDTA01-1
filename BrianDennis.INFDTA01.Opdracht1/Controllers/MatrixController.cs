@@ -1,4 +1,6 @@
 ﻿using System.Web.Mvc;
+using BrianDennis.INFDTA01.Opdracht1.Models;
+using BrianDennis.INFDTA01.Opdracht1.Services;
 
 namespace BrianDennis.INFDTA01.Opdracht1.Controllers
 {
@@ -6,7 +8,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return View(new IndexViewModel {Data = UserItemDataSetFactory.Build(UserItemDataSetFactory.DataSets.Matrix)});
         }
     }
 }

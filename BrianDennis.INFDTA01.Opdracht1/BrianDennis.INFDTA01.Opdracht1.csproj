@@ -89,6 +89,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="matrix.csv" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -114,6 +115,7 @@
     <Compile Include="Models\PredictiveRatingViewModel.cs" />
     <Compile Include="Models\UserPreference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\MatrixDataSet.cs" />
     <Compile Include="Services\NearestNeighbours\AlgorithmFactory.cs" />
     <Compile Include="Services\NearestNeighbours\CosineAlgorithm.cs" />
     <Compile Include="Services\NearestNeighbours\EuclideanAlgorithm.cs" />

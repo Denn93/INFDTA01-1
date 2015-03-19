@@ -11,7 +11,7 @@ namespace BrianDennis.INFDTA01.Opdracht1
 
             routes.MapRoute("UserItem", "{view}/{action}", new { controller = "Main", action = "Index", view = "userItemCsv" });
 
-            
+            routes.MapRoute("default", "{controller}/{action}", new {controller = "Matrix", action = "Index"});
         }
     }
 }

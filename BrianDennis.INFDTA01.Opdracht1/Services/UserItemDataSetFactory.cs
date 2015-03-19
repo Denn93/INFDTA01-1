@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.UI;
 
 namespace BrianDennis.INFDTA01.Opdracht1.Services
 {
@@ -16,6 +18,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
             userItemCsv,
             userItemEditedCsv,
             MovieLens,
+            Matrix,
             NotFound
         }
 
@@ -32,14 +35,17 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
             {
                 case DataSets.userItemCsv:
                     return UserItemDataSet ??
-                           (UserItemDataSet = LoadingConstruct(Configuration.Targets(dataSet.ToString())["Path"], ','));
+                           (UserItemDataSet = LoadingConstruct(Configuration.Targets(dataSet.ToString())["Path"], ',', false));
                 case DataSets.userItemEditedCsv:
                     return UserItemEditedDataSet ??
                            (UserItemEditedDataSet =
-                               LoadingConstruct(Configuration.Targets(dataSet.ToString())["Path"], ','));
+                               LoadingConstruct(Configuration.Targets(dataSet.ToString())["Path"], ',', false));
                     case DataSets.MovieLens:
                     return MovieLensDataSet ??
-                           (MovieLensDataSet = LoadingConstruct(Configuration.Targets(dataSet.ToString())["Path"], '\t'));
+                           (MovieLensDataSet = LoadingConstruct(Configuration.Targets(dataSet.ToString())["Path"], '\t', false));
+                case DataSets.Matrix:
+                    return MatrixDataSet ??
+                           (MatrixDataSet = LoadingConstruct(Configuration.Targets(dataSet.ToString())["Path"], ',', true));
                 case DataSets.NotFound:
                     return null;
             }
@@ -57,17 +63,29 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
         /// <param name="filePath">File path to Dataset</param>
         /// <param name="split">Split character</param>
         /// <returns>Loaded dataset into Dictionary<int, Dictionary<int, float>></returns>
-        private static SortedDictionary<int, Dictionary<int, float>> LoadingConstruct(string filePath, char split)
+        private static SortedDictionary<int, Dictionary<int, float>> LoadingConstruct(string filePath, char split, bool headers)
         {
             SortedDictionary<int, Dictionary<int, float>> dataSet = new SortedDictionary<int, Dictionary<int, float>>();
 
             var lines = File.ReadAllLines(filePath);
 
+            string[] headersString = null;
+
+            if (headers)
+                headersString = lines.First().Split(split).ToArray(); 
+
+
             Parallel.ForEach(lines, line =>
             {
                 lock (dataSet)
                 {
-                    ProcessConstruct(line, split, dataSet);
+                    if (!headers)
+                        ProcessConstruct(line, split, dataSet);
+                    else
+                    {
+                        ProcessContructHeaderLess(line, split, dataSet, headersString);
+                    }
+                        
                 }
             });
 
@@ -102,6 +120,41 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
 
         #endregion
 
+        private static void ProcessContructHeaderLess(string line, char split,
+            IDictionary<int, Dictionary<int, float>> dataSet, string[] headers)
+        {
+            string[] items = line.Split(split);
+
+            if (!line.StartsWith("User"))
+            {
+                for (int i = 0; i < items.Count(); i++)
+                {
+                    if (i == 0)
+                        continue;
+
+                    if (items[i].Equals(""))
+                        continue;
+
+                    int userId = int.Parse(items[0]);
+                    int tempArticle;
+                    int.TryParse(headers[i].Split(':')[0], out tempArticle);
+
+                    int articleId = tempArticle;
+
+                    if (!dataSet.ContainsKey(userId))
+                    {
+                        Dictionary<int, float> content = new Dictionary<int, float> { { articleId, float.Parse(items[i]) } };
+                        dataSet.Add(userId, content);
+                    }
+                    else
+                    {
+                        Dictionary<int, float> content = dataSet[userId];
+                        content.Add(articleId, float.Parse(items[i]));
+                    }
+                }    
+            }
+        }
+
         #region Public Helper Methods
 
         /// <summary>
@@ -124,6 +177,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
         public static SortedDictionary<int, Dictionary<int, float>> UserItemDataSet { get; set; }
         public static SortedDictionary<int, Dictionary<int, float>> UserItemEditedDataSet { get; set; }
         public static SortedDictionary<int, Dictionary<int, float>> MovieLensDataSet { get; set; }
+        public static SortedDictionary<int, Dictionary<int, float>> MatrixDataSet  { get; set; }
 
         #endregion
 
