@@ -40,11 +40,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Index", "Index", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
-                    <li> @Html.ActionLink("Euclidean", "Euclidean", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
-                    <li>@Html.ActionLink("Pearson", "Pearson", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
-                    <li>@Html.ActionLink("Cosine", "Cosine", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
-                    <li>@Html.ActionLink("Predicted Rating", "Predictive", "Main", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
+                    <li>@Html.ActionLink("Index", "Index", "Matrix", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
+                    <li>@Html.ActionLink("Mean per Movie", "Mean", "Matrix", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
+                    <li>@Html.ActionLink("Ratings greater than four", "PercentOfFours", "Matrix", new { view = ViewContext.RouteData.Values["view"].ToString() }, null)</li>
                 </ul>
             </div>
         </div>

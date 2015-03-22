@@ -39,6 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -109,6 +110,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BijlageC\MeanViewModel.cs" />
     <Compile Include="Models\IndexViewModel.cs" />
     <Compile Include="Models\AlgorithmResultListItem.cs" />
     <Compile Include="Models\MatrixResultModel.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="Models\PredictiveRatingViewModel.cs" />
     <Compile Include="Models\UserPreference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BijlageC\Deliverables.cs" />
     <Compile Include="Services\MatrixDataSet.cs" />
     <Compile Include="Services\NearestNeighbours\AlgorithmFactory.cs" />
     <Compile Include="Services\NearestNeighbours\CosineAlgorithm.cs" />
@@ -140,6 +143,9 @@
     <Content Include="Views\Main\Predictive.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Matrix\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout-Matrix.cshtml" />
+    <Content Include="Views\Matrix\Mean.cshtml" />
+    <Content Include="Views\Matrix\PercentOfFours.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

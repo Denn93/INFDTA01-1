@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using BrianDennis.INFDTA01.Opdracht1.Models;
+using Microsoft.VisualBasic.FileIO;
 
 namespace BrianDennis.INFDTA01.Opdracht1.Services
 {
@@ -71,9 +73,17 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
 
             string[] headersString = null;
 
-            if (headers)
-                headersString = lines.First().Split(split).ToArray(); 
 
+            if (headers)
+            {
+                TextFieldParser parser = new TextFieldParser(new StringReader(lines.First()));
+
+                parser.HasFieldsEnclosedInQuotes = true;
+                parser.SetDelimiters(",");
+
+                headersString = parser.ReadFields();
+                parser.Close();
+            }
 
             Parallel.ForEach(lines, line =>
             {
