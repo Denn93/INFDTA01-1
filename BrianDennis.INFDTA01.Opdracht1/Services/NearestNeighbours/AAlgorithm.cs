@@ -33,7 +33,10 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
                         list.Remove(lowest);
                         list.Add(item);
 
-                        ThresHold = similarity;
+                        AlgorithmResultListItem newLowest =
+                        list.Aggregate((item1, item2) => item1.Similarity < item2.Similarity ? item1 : item2);
+
+                        ThresHold = newLowest.Similarity;
                     }
                 }
             }

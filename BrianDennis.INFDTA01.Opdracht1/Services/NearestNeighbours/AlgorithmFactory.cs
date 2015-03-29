@@ -10,7 +10,8 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
             Euclidean,
             Pearson,
             Cosine,
-            Predictive
+            Predictive,
+            Deviation
         };
 
         public static AAlgorithm Build(Algorithm algorithm, UserItemDataSetFactory.DataSets dataSetEnum, string view)
@@ -27,6 +28,8 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
                     return new CosineAAlgorithm(dataSet, view);
                 case Algorithm.Predictive:
                     return new PredictingRatingAlgorithm(dataSet, view);
+                case Algorithm.Deviation:
+                    return new ItemItemDeviationAlgorithm(dataSet, view);
             }
 
             return null;

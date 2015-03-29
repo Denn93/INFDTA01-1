@@ -18,6 +18,14 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
 
         public ActionResult Euclidean(int? targetUser)
         {
+            /*return View(new PlainViewModel
+            {
+                Data =
+                    AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Deviation,
+                        UserItemDataSetFactory.GetDatasetByString(RetrieveView()), RetrieveView()).Calculate(7)
+            });*/
+
+
             PlainViewModel model = new PlainViewModel
             {
                 Data =
@@ -60,7 +68,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
             if (RetrieveView().Equals("MovieLens"))
             {
                 pearsonListData =
-                    AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Cosine,
+                    AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Pearson,
                         UserItemDataSetFactory.GetDatasetByString(RetrieveView()), RetrieveView())
                         .Calculate(targetUser ?? int.Parse(Configuration.Targets(RetrieveView())["DefaultTarget"]));
             }

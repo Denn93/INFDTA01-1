@@ -33,46 +33,34 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
                     .OrderBy(m => m.MovieId)
                     .ToDictionary(m => m.MovieId, m => m.Rating);
 
-
-                /*Dictionary<int, float> newTarget =
-                    targetUser.Where(m => otherUser.Value.ContainsKey(m.Key))
-                        .Select(m => m)
-                        .OrderBy(m => m.Key)
-                        .ToDictionary(m=>m.Key, m=>m.Value);
-*//*
-                Dictionary<int, float> newOther =
-                    otherUser.Value.Where(
-                        m =>
-                            newTarget.ContainsKey(m.Key))
-                        .Select(m => m)
-                        .OrderBy(m => m.Key)
-                        .ToDictionary(m => m.Key, m => m.Value);
-*/
                 KeyValuePair<int, float>[] targetTemp = newTarget.ToArray();
                 KeyValuePair<int, float>[] otherTemp = newOther.ToArray();
 
-                double xi = 0;
-                double xc = 0;
-                double yi = 0;
-                double yc = 0;
-                double xiyi = 0;
+                double sumX = 0.00,
+                    sumY = 0.00,
+                    sumXSquare = 0.00,
+                    sumYSquare = 0.00,
+                    sumXy = 0.00;
 
-                int index = newTarget.Count;
+                int index = 0;
 
                 for (int i = 0; i < targetTemp.Length; i++)
                 {
-                    xi = xi + targetTemp[i].Value;
-                    xc = xc + (targetTemp[i].Value * targetTemp[i].Value);
-                    yi = yi + otherTemp[i].Value;
-                    yc = yc + (otherTemp[i].Value * otherTemp[i].Value);
-                    xiyi = xiyi + (targetTemp[i].Value * otherTemp[i].Value);
+                    sumX += targetTemp[i].Value;
+                    sumY += otherTemp[i].Value;
+                    sumXSquare += (targetTemp[i].Value * targetTemp[i].Value);
+                    sumYSquare += (otherTemp[i].Value * otherTemp[i].Value);
+                    sumXy += (targetTemp[i].Value * otherTemp[i].Value);
+                    index++;
                 }
 
-                double result = ((xiyi) - ((xi*yi)/index))/
-                                (Math.Sqrt(xc - ((xi*xi)/index))*Math.Sqrt(yc - ((yi*yi)/index)));
+                double step1 = sumXy - (sumX*sumY)/index;
+                double step2 = Math.Sqrt(sumXSquare - (Math.Pow(sumX, 2)/index));
+                double step3 = Math.Sqrt(sumYSquare - (Math.Pow(sumY, 2)/index));
+
+                double result = step1/(step2*step3);
 
                 ResultAdd(resultList, AlgorithmResultListItem.Build(new Tuple<int, int, double, int>(targetUserId, otherUser.Key, result, 0)), result);
-                /*resultList.Add(AlgorithmResultListItem.Build(new Tuple<int, int, double, int>(targetUserId, otherUser.Key, result, 0)));*/
             }
 
             return resultList;

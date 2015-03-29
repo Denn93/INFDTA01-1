@@ -124,6 +124,7 @@
     <Compile Include="Services\NearestNeighbours\CosineAlgorithm.cs" />
     <Compile Include="Services\NearestNeighbours\EuclideanAlgorithm.cs" />
     <Compile Include="Services\NearestNeighbours\AAlgorithm.cs" />
+    <Compile Include="Services\NearestNeighbours\ItemItemDeviationAlgorithm.cs" />
     <Compile Include="Services\NearestNeighbours\PearsonAlgorithm.cs" />
     <Compile Include="Services\NearestNeighbours\PredictingRatingAlgorithm.cs" />
     <Compile Include="Services\UserItemDataSetFactory.cs" />
