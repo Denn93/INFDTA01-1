@@ -9,6 +9,6 @@ namespace BrianDennis.INFDTA01.Opdracht1.Extensions
         public static bool ContainsMovie(this List<UserPreference> list, int key)
         {
             return list.Count(m => m.MovieId == key) > 0;
-        }
+        } 
     }
 }

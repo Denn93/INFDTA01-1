@@ -18,14 +18,6 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
 
         public ActionResult Euclidean(int? targetUser)
         {
-            /*return View(new PlainViewModel
-            {
-                Data =
-                    AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Deviation,
-                        UserItemDataSetFactory.GetDatasetByString(RetrieveView()), RetrieveView()).Calculate(7)
-            });*/
-
-
             PlainViewModel model = new PlainViewModel
             {
                 Data =
@@ -97,6 +89,16 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
             return View(model);
         }
 
+        public ActionResult Deviation()
+        {
+            ItemItemDeviationAlgorithm algorithm = (ItemItemDeviationAlgorithm) AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Deviation,
+                UserItemDataSetFactory.GetDatasetByString(RetrieveView()), RetrieveView());
+
+            algorithm.Calculate();
+            
+            return View(algorithm.DeviationResult);
+        }
+
         #endregion
 
         #region Additional Methods
@@ -121,4 +123,4 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
 
         #endregion
     }
-}
+}   

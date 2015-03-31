@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BrianDennis.INFDTA01.Opdracht1.Models;
 
@@ -8,7 +9,16 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
     {
         protected double ThresHold { get; set; }
 
-        public abstract List<AlgorithmResultListItem> Calculate(int targetUser);
+        public virtual void Calculate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual List<AlgorithmResultListItem> Calculate(int targetUser)
+        {
+            throw new NotImplementedException();
+        }
+
         protected SortedDictionary<int, List<UserPreference>> DataSet;
 
         protected AAlgorithm(SortedDictionary<int, List<UserPreference>> dataSet, string view)

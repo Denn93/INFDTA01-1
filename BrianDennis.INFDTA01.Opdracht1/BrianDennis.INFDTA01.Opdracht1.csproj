@@ -111,6 +111,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BijlageC\MeanViewModel.cs" />
+    <Compile Include="Models\DeviationResultItem.cs" />
     <Compile Include="Models\IndexViewModel.cs" />
     <Compile Include="Models\AlgorithmResultListItem.cs" />
     <Compile Include="Models\MatrixResultModel.cs" />
@@ -147,6 +148,7 @@
     <Content Include="Views\Shared\_Layout-Matrix.cshtml" />
     <Content Include="Views\Matrix\Mean.cshtml" />
     <Content Include="Views\Matrix\PercentOfFours.cshtml" />
+    <Content Include="Views\Main\Deviation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
