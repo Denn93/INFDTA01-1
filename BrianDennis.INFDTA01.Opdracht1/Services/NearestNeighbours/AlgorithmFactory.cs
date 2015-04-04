@@ -11,12 +11,14 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
             Pearson,
             Cosine,
             Predictive,
-            Deviation
+            Deviation,
+            PredictionDeviation,
+            UpdateDeviation
         };
 
         public static AAlgorithm Build(Algorithm algorithm, UserItemDataSetFactory.DataSets dataSetEnum, string view)
         {
-            SortedDictionary<int, List<UserPreference>> dataSet = UserItemDataSetFactory.Build(dataSetEnum);
+            SortedDictionary<int, UserPreference> dataSet = UserItemDataSetFactory.Build(dataSetEnum);
 
             switch (algorithm)
             {
@@ -30,6 +32,10 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
                     return new PredictingRatingAlgorithm(dataSet, view);
                 case Algorithm.Deviation:
                     return new ItemItemDeviationAlgorithm(dataSet, view);
+                case Algorithm.PredictionDeviation:
+                    return new ItemItemSlopeOneAlgorithm(dataSet, view);
+                case Algorithm.UpdateDeviation:
+                    return new ItemItemSlopeUpdate(dataSet, view);
             }
 
             return null;

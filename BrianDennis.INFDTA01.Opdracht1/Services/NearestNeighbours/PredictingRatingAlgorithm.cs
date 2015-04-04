@@ -1,65 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BrianDennis.INFDTA01.Opdracht1.Extensions;
 using BrianDennis.INFDTA01.Opdracht1.Models;
 
 namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 {
     public class PredictingRatingAlgorithm : AAlgorithm
     {
-        public PredictingRatingAlgorithm(SortedDictionary<int, List<UserPreference>> dataSet, string view) 
+        public PredictingRatingAlgorithm(SortedDictionary<int, UserPreference> dataSet, string view) 
             : base(dataSet, view)
         {}
 
         public override List<AlgorithmResultListItem> Calculate(int targetUser)
         {
             List<AlgorithmResultListItem> result = new List<AlgorithmResultListItem>();
-            List<UserPreference> targetArticles = DataSet[targetUser];
+            Dictionary<int, float> targetArticles = DataSet[targetUser].Preferences;
 
             PredictiveRatings = new Dictionary<int, double>();
             Dictionary<int, Tuple<double, int>> articlesTotals = new Dictionary<int, Tuple<double, int>>();
 
             foreach (AlgorithmResultListItem algorithmResultListItem in PearsonListData)
             {
-                List<UserPreference> articles = DataSet[algorithmResultListItem.OtherUser];
+                Dictionary<int, float> articles = DataSet[algorithmResultListItem.OtherUser].Preferences;
 
-                foreach (UserPreference article in articles)
+                foreach (KeyValuePair<int, float> article in articles)
                 {
-                    if (articlesTotals.ContainsKey(article.MovieId))
-                        articlesTotals[article.MovieId] =
+                    if (articlesTotals.ContainsKey(article.Key))
+                        articlesTotals[article.Key] =
                             new Tuple<double, int>(
-                                articlesTotals[article.MovieId].Item1 + algorithmResultListItem.Similarity,
-                                articlesTotals[article.MovieId].Item2 + 1);
+                                articlesTotals[article.Key].Item1 + algorithmResultListItem.Similarity,
+                                articlesTotals[article.Key].Item2 + 1);
                     else
                     {
-                        articlesTotals.Add(article.MovieId, new Tuple<double, int>(algorithmResultListItem.Similarity, 1));
+                        articlesTotals.Add(article.Key, new Tuple<double, int>(algorithmResultListItem.Similarity, 1));
                     }
                 }
             }
 
             foreach (AlgorithmResultListItem algorithmResultListItem in PearsonListData)
             {
-                List<UserPreference> articles = DataSet[algorithmResultListItem.OtherUser];
+                Dictionary<int, float> articles = DataSet[algorithmResultListItem.OtherUser].Preferences;
 
                 foreach (
-                    UserPreference article in
-                        articles.Where(article => !targetArticles.ContainsMovie(article.MovieId)))
+                    KeyValuePair<int, float> article in
+                        articles.Where(article => !targetArticles.ContainsKey(article.Key)))
                 {
                     if (View.Equals("MovieLens"))
-                        if (!(articlesTotals[article.MovieId].Item2 > 2))
+                        if (!(articlesTotals[article.Key].Item2 > 2))
                             continue; 
     
-                    if (PredictiveRatings.ContainsKey(article.MovieId))
+                    if (PredictiveRatings.ContainsKey(article.Key))
                     {
-                        PredictiveRatings[article.MovieId] = PredictiveRatings[article.MovieId] +
+                        PredictiveRatings[article.Key] = PredictiveRatings[article.Key] +
                                                          CalculateWeightedRating(algorithmResultListItem.Similarity,
-                                                             articlesTotals[article.MovieId].Item1, article.Rating);
+                                                             articlesTotals[article.Key].Item1, article.Value);
                     }
                     else
-                        PredictiveRatings.Add(article.MovieId,
-                            CalculateWeightedRating(algorithmResultListItem.Similarity, articlesTotals[article.MovieId].Item1,
-                                article.Rating));
+                        PredictiveRatings.Add(article.Key,
+                            CalculateWeightedRating(algorithmResultListItem.Similarity, articlesTotals[article.Key].Item1,
+                                article.Value));
                 }
             }
 

@@ -7,13 +7,13 @@
 <h2>Index - @ViewContext.RouteData.Values["view"]</h2>
 
 <ul>
-    @foreach (KeyValuePair<int, List<UserPreference>> item in Model.Data)
+    @foreach (KeyValuePair<int, UserPreference> item in Model.Data)
     {
         <li>UserID: @item.Key</li>
     <ul>
-        @foreach (UserPreference preferences in item.Value)
+        @foreach (KeyValuePair<int, float> preferences in item.Value.Preferences)
         {
-            <li>Article: @((preferences.MovieId == 0) ? preferences.Description : preferences.MovieId.ToString()) - Rating: @preferences.Rating</li>
+            <li>Article: @((preferences.Key == 0) ? preferences.Key.ToString() : preferences.Key.ToString()) - Rating: @preferences.Value</li>
         }
     </ul>
     }

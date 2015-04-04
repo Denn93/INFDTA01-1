@@ -112,6 +112,7 @@
     </Compile>
     <Compile Include="Models\BijlageC\MeanViewModel.cs" />
     <Compile Include="Models\DeviationResultItem.cs" />
+    <Compile Include="Models\DeviationUpdateModel.cs" />
     <Compile Include="Models\IndexViewModel.cs" />
     <Compile Include="Models\AlgorithmResultListItem.cs" />
     <Compile Include="Models\MatrixResultModel.cs" />
@@ -120,12 +121,14 @@
     <Compile Include="Models\UserPreference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BijlageC\Deliverables.cs" />
+    <Compile Include="Services\NearestNeighbours\ItemItemSlopeOneAlgorithm.cs" />
     <Compile Include="Services\MatrixDataSet.cs" />
     <Compile Include="Services\NearestNeighbours\AlgorithmFactory.cs" />
     <Compile Include="Services\NearestNeighbours\CosineAlgorithm.cs" />
     <Compile Include="Services\NearestNeighbours\EuclideanAlgorithm.cs" />
     <Compile Include="Services\NearestNeighbours\AAlgorithm.cs" />
     <Compile Include="Services\NearestNeighbours\ItemItemDeviationAlgorithm.cs" />
+    <Compile Include="Services\NearestNeighbours\ItemItemSlopeUpdate.cs" />
     <Compile Include="Services\NearestNeighbours\PearsonAlgorithm.cs" />
     <Compile Include="Services\NearestNeighbours\PredictingRatingAlgorithm.cs" />
     <Compile Include="Services\UserItemDataSetFactory.cs" />
@@ -149,6 +152,7 @@
     <Content Include="Views\Matrix\Mean.cshtml" />
     <Content Include="Views\Matrix\PercentOfFours.cshtml" />
     <Content Include="Views\Main\Deviation.cshtml" />
+    <Content Include="Views\Main\DeviationUpdate.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

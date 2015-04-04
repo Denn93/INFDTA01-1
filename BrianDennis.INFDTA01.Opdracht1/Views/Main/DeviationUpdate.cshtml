@@ -1,0 +1,15 @@
+﻿@model DeviationUpdateModel
+
+@{
+    ViewBag.Title = "Deviation Update";
+}
+
+<h2>Deviation- @ViewContext.RouteData.Values["view"]</h2>
+
+<ul>
+    <li>MoviePair: I: @Model.UpdatePair.Item1, J: @Model.UpdatePair.Item2</li>
+    <li>Given Rating: I: @Model.RatingI, J: @Model.RatingJ</li>
+    
+    <li>Old CurrentDeviation: @Model.OldDeviation</li>
+    <li>New CurrenDeviation: @Model.NewDeviation</li>
+</ul>

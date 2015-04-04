@@ -1,17 +1,15 @@
-﻿@model List<DeviationResultItem>
+﻿@model Tuple<int, Dictionary<int, double>>
 
 @{
-    ViewBag.Title = "Deviation";
+    ViewBag.Title = "Predicted rating slope one";
 }
 
 <h2>Deviation- @ViewContext.RouteData.Values["view"]</h2>
 
-@foreach (DeviationResultItem item in Model)
+@foreach (KeyValuePair<int, double> item in Model.Item2)
 {
     <ul>
-        <li>Movie 1: @item.I</li>
-        <li>Movie 2: @item.J</li>
-        <li>Deviation: @item.Deviation</li>
-        <li>Number of users  rated both items @item.UserCount</li>
+        <li>Movie: @item.Key</li>
+        <li>Predicted Rating: @item.Value</li>
     </ul>
 }

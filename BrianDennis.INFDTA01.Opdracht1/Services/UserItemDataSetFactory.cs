@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using BrianDennis.INFDTA01.Opdracht1.Models;
 using Microsoft.VisualBasic.FileIO;
@@ -30,7 +29,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
         /// </summary>
         /// <param name="dataSet">DataSet enum item</param>
         /// <returns>Created Dataset</returns>
-        public static SortedDictionary<int, List<UserPreference>> Build(DataSets dataSet)
+        public static SortedDictionary<int, UserPreference> Build(DataSets dataSet)
         {
             switch (dataSet)
             {
@@ -65,9 +64,9 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
         /// <param name="split">Split character</param>
         /// <param name="headers">Headers of file</param>
         /// <returns>Loaded dataset into Dictionary<int, Dictionary<int, float>></returns>
-        private static SortedDictionary<int, List<UserPreference>> LoadingConstruct(string filePath, char split, bool headers)
+        private static SortedDictionary<int, UserPreference> LoadingConstruct(string filePath, char split, bool headers)
         {
-            SortedDictionary<int, List<UserPreference>> dataSet = new SortedDictionary<int, List<UserPreference>>();
+            SortedDictionary<int, UserPreference> dataSet = new SortedDictionary<int, UserPreference>();
 
             var lines = File.ReadAllLines(filePath);
 
@@ -107,7 +106,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
         /// <param name="line">Input line</param>
         /// <param name="split">Split line parameter</param>
         /// <param name="dataSet">Resulting dataset</param>
-        private static void ProcessConstruct(string line, char split, IDictionary<int, List<UserPreference>> dataSet)
+        private static void ProcessConstruct(string line, char split, IDictionary<int, UserPreference> dataSet)
         {
             string[] row = line.Split(split);
 
@@ -117,24 +116,20 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
 
             if (!dataSet.ContainsKey(userId))
             {
-                List<UserPreference> content = new List<UserPreference>
-                {
-                    new UserPreference {MovieId = articleId, Rating = rating}
-                };
-
-                dataSet.Add(userId, content);
+                Dictionary<int, float> items = new Dictionary<int, float> {{articleId, rating}};
+                dataSet.Add(userId, new UserPreference {Preferences = items});
             }
             else
             {
-                List<UserPreference> content = dataSet[userId];
-                content.Add(new UserPreference {MovieId = articleId, Rating = rating});
+                UserPreference content = dataSet[userId];
+                content.Preferences.Add(articleId, rating);
             }    
         }
 
         #endregion
 
         private static void ProcessContructHeaderLess(string line, char split,
-            IDictionary<int, List<UserPreference>> dataSet, string[] headers)
+            IDictionary<int, UserPreference> dataSet, string[] headers)
         {
             string[] items = line.Split(split);
 
@@ -150,17 +145,17 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
 
                     int userId = int.Parse(items[0]);
 
-                    string article = headers[i];
+                    int articleId = int.Parse(headers[i].Split(':')[0]);
                     
                     if (!dataSet.ContainsKey(userId))
                     {
-                        List<UserPreference> content = new List<UserPreference> {new UserPreference {Description = article, Rating = float.Parse(items[i])}};
-                        dataSet.Add(userId, content);
+                        Dictionary<int, float> item = new Dictionary<int, float> {{articleId, float.Parse(items[i])}};
+                        dataSet.Add(userId, new UserPreference {Preferences = item});
                     }
                     else
                     {
-                        List<UserPreference> content = dataSet[userId];
-                        content.Add(new UserPreference {Description = article, Rating = float.Parse(items[i])});
+                        UserPreference content = dataSet[userId];
+                        content.Preferences.Add(articleId, float.Parse(items[i]));
                     }
                 }    
             }
@@ -185,10 +180,10 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
 
         #region Properties
 
-        public static SortedDictionary<int, List<UserPreference>> UserItemDataSet { get; set; }
-        public static SortedDictionary<int, List<UserPreference>> UserItemEditedDataSet { get; set; }
-        public static SortedDictionary<int, List<UserPreference>> MovieLensDataSet { get; set; }
-        public static SortedDictionary<int, List<UserPreference>> MatrixDataSet  { get; set; }
+        public static SortedDictionary<int, UserPreference> UserItemDataSet { get; set; }
+        public static SortedDictionary<int, UserPreference> UserItemEditedDataSet { get; set; }
+        public static SortedDictionary<int, UserPreference> MovieLensDataSet { get; set; }
+        public static SortedDictionary<int, UserPreference> MatrixDataSet  { get; set; }
 
         #endregion
 

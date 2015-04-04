@@ -8,7 +8,7 @@
 <h2>Percent ratings greater than four</h2>
 
 <ul>
-    @foreach (KeyValuePair<string, float> item in Model.ResultList)
+    @foreach (KeyValuePair<int, float> item in Model.ResultList)
     {
         <li>MovieName: @item.Key - Percentage : @item.Value</li>
         

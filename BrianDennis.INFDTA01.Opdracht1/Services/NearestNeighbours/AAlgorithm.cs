@@ -19,9 +19,14 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
             throw new NotImplementedException();
         }
 
-        protected SortedDictionary<int, List<UserPreference>> DataSet;
+        public virtual void Calculate(int targetUser, int? targetItem)
+        {
+            throw new NotImplementedException();
+        }
 
-        protected AAlgorithm(SortedDictionary<int, List<UserPreference>> dataSet, string view)
+        protected SortedDictionary<int, UserPreference> DataSet;
+
+        protected AAlgorithm(SortedDictionary<int, UserPreference> dataSet, string view)
         {
             View = view;
             DataSet = dataSet;

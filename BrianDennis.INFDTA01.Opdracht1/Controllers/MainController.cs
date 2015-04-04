@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Windows.Forms.VisualStyles;
 using BrianDennis.INFDTA01.Opdracht1.Models;
 using BrianDennis.INFDTA01.Opdracht1.Services;
 using BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours;
@@ -91,12 +93,55 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
 
         public ActionResult Deviation()
         {
-            ItemItemDeviationAlgorithm algorithm = (ItemItemDeviationAlgorithm) AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Deviation,
-                UserItemDataSetFactory.GetDatasetByString(RetrieveView()), RetrieveView());
+            if (ItemItemDeviationAlgorithm.GetDeviationResult(RetrieveView()) == null)
+            {
+                ItemItemDeviationAlgorithm algorithm = (ItemItemDeviationAlgorithm)AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Deviation,
+                    UserItemDataSetFactory.GetDatasetByString(RetrieveView()), RetrieveView());
 
-            algorithm.Calculate();
-            
-            return View(algorithm.DeviationResult);
+                algorithm.Calculate();    
+            }
+
+            ItemItemSlopeOneAlgorithm slopeOne =
+                (ItemItemSlopeOneAlgorithm)
+                    AlgorithmFactory.Build(AlgorithmFactory.Algorithm.PredictionDeviation,
+                        UserItemDataSetFactory.GetDatasetByString(RetrieveView()), RetrieveView());
+
+            slopeOne.Calculate(7, null);
+
+            return View(slopeOne.SlopeOneResult);
+        }
+
+        public ActionResult DeviationUpdate()
+        {
+            if (ItemItemDeviationAlgorithm.GetDeviationResult(RetrieveView()) == null)
+            {
+                ItemItemDeviationAlgorithm algorithm = (ItemItemDeviationAlgorithm)AlgorithmFactory.Build(AlgorithmFactory.Algorithm.Deviation,
+                    UserItemDataSetFactory.GetDatasetByString(RetrieveView()), RetrieveView());
+
+                algorithm.Calculate();
+            }
+
+            ItemItemSlopeUpdate updateAlgorithm =
+                (ItemItemSlopeUpdate)
+                    AlgorithmFactory.Build(AlgorithmFactory.Algorithm.UpdateDeviation,
+                        UserItemDataSetFactory.GetDatasetByString(RetrieveView()), RetrieveView());
+
+            switch (RetrieveView())
+            {
+                case "MovieLens":
+                    updateAlgorithm.PreparePairUpdate(61, 543, 4, 2);
+                    break;
+                case "userItemCsv":
+                    updateAlgorithm.PreparePairUpdate(103, 106, 4, 2);
+                    break;
+                case "userItemEditedCsv":
+                    updateAlgorithm.PreparePairUpdate(101, 103, 4, 2);
+                    break;
+            }
+
+            updateAlgorithm.Calculate(7, null);
+
+            return View(updateAlgorithm.ResultModel);
         }
 
         #endregion
