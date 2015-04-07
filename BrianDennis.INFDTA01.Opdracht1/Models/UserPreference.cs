@@ -4,15 +4,11 @@ namespace BrianDennis.INFDTA01.Opdracht1.Models
 {
     public class UserPreference 
     {
-        public int Id { get; set; }
-
+        /// <summary>
+        /// This dictionary contains the movie /articleId and the rating. Int for Id, and float for the Rating
+        /// </summary>
         public Dictionary<int, float> Preferences { get; set; } 
-
-        
-
-
         public string Description { get; set; } 
-        public float  Rating { get; set; }
         public string Genre { get; set; }
     }
 }

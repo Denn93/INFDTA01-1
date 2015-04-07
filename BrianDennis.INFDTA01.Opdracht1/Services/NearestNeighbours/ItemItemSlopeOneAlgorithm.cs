@@ -16,11 +16,13 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 
         public override void Calculate(int targetUser, int? targetItem)
         {
-            Stopwatch watch = new Stopwatch();
             Dictionary<Tuple<int, int>, Tuple<double, int>> deviations = ItemItemDeviationAlgorithm.GetDeviationResult(View);
+            List<int> items = ItemItemDeviationAlgorithm.GetItemList(View);
+
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
 
             UserPreference userPreferences = DataSet[targetUser];
-            List<int> items = ItemItemDeviationAlgorithm.ItemList;
             Dictionary<int, double> predictedRatings = new Dictionary<int, double>();
 
             foreach (int i in items.Where(m => !userPreferences.Preferences.ContainsKey(m)))
@@ -30,7 +32,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 
                 foreach (KeyValuePair<int, float> item in userPreferences.Preferences)
                 {
-                    Tuple<int, int> pair = new Tuple<int, int>(i, item.Key);
+                    Tuple<int, int> pair = new Tuple<int, int>(i,item.Key);
 
                     if (deviations.ContainsKey(pair))
                     {

@@ -1,53 +1,95 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using BrianDennis.INFDTA01.Opdracht1.Models;
 
 namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 {
     public class ItemItemSlopeUpdate : AAlgorithm
     {
-        private Tuple<int, int> _pair;
-        private int _ratingI;
-        private int _ratingJ;
+        private List<Tuple<int, int>> _pairs;
+        private int _i;
+        private float _ratingI;
 
         public ItemItemSlopeUpdate(SortedDictionary<int, UserPreference> dataSet, string view) 
             : base(dataSet, view)
         {}
 
-        public DeviationUpdateModel ResultModel{ get; set; }
+        public List<DeviationUpdateModel> ResultModel{ get; set; }
         
         public override void Calculate(int targetUser, int? targetItem)
         {
             Stopwatch watch = new Stopwatch();
+            watch.Start();
+
+            ResultModel = new List<DeviationUpdateModel>();
             Dictionary<Tuple<int, int>, Tuple<double, int>> deviations = ItemItemDeviationAlgorithm.GetDeviationResult(View);
 
-            double currentDeviation = deviations[_pair].Item1;
+            SortedDictionary<int, UserPreference> dataset =
+                UserItemDataSetFactory.Build(UserItemDataSetFactory.DataSets.userItemCsv);
+            dataset[targetUser].Preferences.Add(_i, _ratingI);
 
-            double newCurrentDeviation = ((deviations[_pair].Item1 * deviations[_pair].Item2) + (_ratingI - _ratingJ)) /
-                                         deviations[_pair].Item2 + 1;
+            List<Tuple<int, int>> updatePairs =
+                ItemItemDeviationAlgorithm.GetPairList(View).Where(m => m.Item1 == _i || m.Item2 == _i).ToList();
 
-            deviations[_pair] = new Tuple<double, int>(newCurrentDeviation, deviations[_pair].Item2 + 1);
-
-            ResultModel = new DeviationUpdateModel
+            foreach (Tuple<int, int> updatePair in updatePairs)
             {
-                UpdatePair = _pair,
-                NewDeviation = newCurrentDeviation,
-                OldDeviation = currentDeviation,
-                RatingI = _ratingI,
-                RatingJ = _ratingJ
-            };
+                if (!dataset[targetUser].Preferences.ContainsKey(updatePair.Item1) || !dataset[targetUser].Preferences.ContainsKey(updatePair.Item2))
+                    continue;
+
+
+                float ratingJ = (updatePair.Item1 != _i)
+                    ? dataset[targetUser].Preferences[updatePair.Item1]
+                    : dataset[targetUser].Preferences[updatePair.Item2];
+
+                double currentDeviation = deviations[updatePair].Item1;
+                double newCurrentDeviation = ((deviations[updatePair].Item1*deviations[updatePair].Item2) +
+                                              (_ratingI - ratingJ)) /
+                                             (deviations[updatePair].Item2 + 1);
+
+                deviations[updatePair] = new Tuple<double, int>(newCurrentDeviation, deviations[updatePair].Item2 + 1);
+
+                deviations[FlipPair(updatePair)] = new Tuple<double, int>(FlipResult(newCurrentDeviation), deviations[FlipPair(updatePair)].Item2 + 1);
+
+                ResultModel.Add(new DeviationUpdateModel
+                {
+                    UpdatePair = updatePair,
+                    NewDeviation = newCurrentDeviation,
+                    OldDeviation = currentDeviation,
+                    RatingI = _ratingI,
+                    RatingJ = ratingJ
+                });
+
+                ResultModel.Add(new DeviationUpdateModel
+                {
+                    UpdatePair = FlipPair(updatePair),
+                    NewDeviation = FlipResult(newCurrentDeviation),
+                    OldDeviation = currentDeviation,
+                    RatingI = _ratingI,
+                    RatingJ = ratingJ
+                });
+            }
 
             watch.Stop();
             double elapsed = watch.Elapsed.TotalSeconds;
             System.Console.WriteLine();
         }
 
-        public void PreparePairUpdate(int i, int j, int ratingI, int ratingJ)
+        private static double FlipResult(double deviation)
         {
-            _pair = new Tuple<int, int>(i, j);
+            return (deviation < 0) ? Math.Abs(deviation) : deviation*-1;
+        }
+
+        private static Tuple<int,int> FlipPair(Tuple<int, int> pair)
+        {
+            return new Tuple<int, int>(pair.Item2, pair.Item1);
+        }
+
+        public void AddRating(int i, float ratingI)
+        {
+            _i = i;
             _ratingI = ratingI;
-            _ratingJ = ratingJ;
         }
     }
 }

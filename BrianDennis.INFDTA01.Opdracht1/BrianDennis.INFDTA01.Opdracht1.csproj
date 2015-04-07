@@ -99,7 +99,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="userItemEdited.csv" />
     <Content Include="u.data" />
-    <None Include="userItem.csv" />
+    <Content Include="userItem.csv" />
+    <None Include="userItem11.csv" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />

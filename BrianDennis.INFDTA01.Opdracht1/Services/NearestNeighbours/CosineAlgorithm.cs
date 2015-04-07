@@ -49,22 +49,30 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
             return result;
         }
 
+        /// <summary>
+        /// Compute Cosine algorithm by taking the ratings of two users where both
+        /// users rated the same movie/article. If the other user rated movies that
+        /// the target user hasn't rated, other user rating for that movie/article is zero.
+        /// </summary>
+        /// <param name="targetList">Ratings of the target user</param>
+        /// <param name="otherList">Ratings of the other user</param>
+        /// <returns></returns>
         public static double GetCosineSimilarity(List<float> targetList, List<float> otherList)
         {
             int count = ((otherList.Count < targetList.Count) ? otherList.Count : targetList.Count);
             
-            double dot = 0.0d;
-            double vectorLength1 = 0.0d;
-            double vectorLength2 = 0.0d;
+            double numerator = 0.0d;
+            double denominatorLeft = 0.0d;
+            double denominatorRight = 0.0d;
 
             for (int i = 0; i < count; i++)
             {
-                dot += targetList[i] * otherList[i];
-                vectorLength1 += Math.Pow(Math.Abs(targetList[i]), 2);
-                vectorLength2 += Math.Pow(Math.Abs(otherList[i]), 2);
+                numerator += targetList[i] * otherList[i];
+                denominatorLeft += Math.Pow(Math.Abs(targetList[i]), 2);
+                denominatorRight += Math.Pow(Math.Abs(otherList[i]), 2);
             }
 
-            return dot / (Math.Sqrt(vectorLength1) * Math.Sqrt(vectorLength2));
+            return numerator / (Math.Sqrt(denominatorLeft) * Math.Sqrt(denominatorRight));
         }
 
     }

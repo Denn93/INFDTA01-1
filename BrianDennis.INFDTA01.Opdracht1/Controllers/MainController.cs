@@ -91,7 +91,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
             return View(model);
         }
 
-        public ActionResult Deviation()
+        public ActionResult Deviation(int? targetUser)
         {
             if (ItemItemDeviationAlgorithm.GetDeviationResult(RetrieveView()) == null)
             {
@@ -106,7 +106,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
                     AlgorithmFactory.Build(AlgorithmFactory.Algorithm.PredictionDeviation,
                         UserItemDataSetFactory.GetDatasetByString(RetrieveView()), RetrieveView());
 
-            slopeOne.Calculate(7, null);
+            slopeOne.Calculate(targetUser ?? int.Parse(Configuration.Targets(RetrieveView())["DefaultTarget"]), null);
 
             return View(slopeOne.SlopeOneResult);
         }
@@ -129,17 +129,16 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
             switch (RetrieveView())
             {
                 case "MovieLens":
-                    updateAlgorithm.PreparePairUpdate(61, 543, 4, 2);
+                    //updateAlgorithm.PreparePairUpdate(61, 543, 4, 2);
                     break;
                 case "userItemCsv":
-                    updateAlgorithm.PreparePairUpdate(103, 106, 4, 2);
+                    updateAlgorithm.AddRating(105, 4.0f);
+                    updateAlgorithm.Calculate(3, null);
                     break;
                 case "userItemEditedCsv":
-                    updateAlgorithm.PreparePairUpdate(101, 103, 4, 2);
+                    //updateAlgorithm.PreparePairUpdate(101, 103, 4, 2);
                     break;
             }
-
-            updateAlgorithm.Calculate(7, null);
 
             return View(updateAlgorithm.ResultModel);
         }

@@ -32,6 +32,12 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
             DataSet = dataSet;
         }
 
+        /// <summary>
+        /// This method determines if a item with the calculated similarity can be added to the list. 
+        /// </summary>
+        /// <param name="list">The resultList</param>
+        /// <param name="item">Item to be added</param>
+        /// <param name="similarity">item similarity</param>
         protected void ResultAdd(List<AlgorithmResultListItem> list, AlgorithmResultListItem item, double similarity)
         {
             if (similarity > ThresHold)

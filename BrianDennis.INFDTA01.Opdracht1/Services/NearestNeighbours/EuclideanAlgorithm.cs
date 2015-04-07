@@ -33,10 +33,14 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
                         continue;
                     }
 
+                    //This Linq expression gets the target user rating where the id is the same as the preference id. 
+                    //The preference variable is a selected item for a user other than targetUser
                     float targetUserRating = target.Where(m => m.Key== preference.Key).Select(m => m.Value).First();
+                    //Compute the distance by summing the squared differences of all items
                     distance += Math.Pow(preference.Value - targetUserRating, 2);
                 }
 
+                //Take the square root of the sum to compute the similarity and normalize by 1 divided by similarity.
                 double similarity = 1/(1 + Math.Sqrt(distance));
 
                 ResultAdd(result,

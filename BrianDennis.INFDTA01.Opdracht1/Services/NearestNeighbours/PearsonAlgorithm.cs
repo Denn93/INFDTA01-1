@@ -22,34 +22,23 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
             {
                 if (otherUser.Key == targetUserId) continue;
 
-                Dictionary<int, float> newwT =
+                Dictionary<int, float> newTarget =
                     targetUser.Where(m => otherUser.Value.Preferences.ContainsKey(m.Key))
                         .Select(m => m)
                         .OrderBy(m => m.Key)
                         .ToDictionary(m => m.Key, m => m.Value);
 
-                Dictionary<int, float> newwO =
-                    otherUser.Value.Preferences.Where(m => newwT.ContainsKey(m.Key))
+                Dictionary<int, float> newOther =
+                    otherUser.Value.Preferences.Where(m => newTarget.ContainsKey(m.Key))
                         .Select(m => m)
                         .OrderBy(m => m.Key)
                         .ToDictionary(m => m.Key, m => m.Value);
 
+                KeyValuePair<int, float>[] newTargetArray = newTarget.ToArray();
+                KeyValuePair<int, float>[] newOtherArray = newOther.ToArray();
+
+                CalculatePearson(resultList, newTargetArray, newOtherArray, targetUserId, otherUser.Key);
 /*
-
-                Dictionary<int, float> newTarget = targetUser.Where(m => otherUser.Value.ContainsMovie(m.MovieId))
-                    .Select(m => m)
-                    .OrderBy(m => m.MovieId)
-                    .ToDictionary(m => m.MovieId, m => m.Rating);
-
-                Dictionary<int, float> newOther = otherUser.Value.Where(m => newTarget.ContainsKey(m.MovieId))
-                    .Select(m => m)
-                    .OrderBy(m => m.MovieId)
-                    .ToDictionary(m => m.MovieId, m => m.Rating);
-*/
-
-                KeyValuePair<int, float>[] targetTemp = newwT.ToArray();
-                KeyValuePair<int, float>[] otherTemp = newwO.ToArray();
-
                 double sumX = 0.00,
                     sumY = 0.00,
                     sumXSquare = 0.00,
@@ -58,13 +47,13 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 
                 int index = 0;
 
-                for (int i = 0; i < targetTemp.Length; i++)
+                for (int i = 0; i < newTargetArray.Length; i++)
                 {
-                    sumX += targetTemp[i].Value;
-                    sumY += otherTemp[i].Value;
-                    sumXSquare += (targetTemp[i].Value * targetTemp[i].Value);
-                    sumYSquare += (otherTemp[i].Value * otherTemp[i].Value);
-                    sumXy += (targetTemp[i].Value * otherTemp[i].Value);
+                    sumX += newTargetArray[i].Value;
+                    sumY += newOtherArray[i].Value;
+                    sumXSquare += (newTargetArray[i].Value * newTargetArray[i].Value);
+                    sumYSquare += (newOtherArray[i].Value * newOtherArray[i].Value);
+                    sumXy += (newTargetArray[i].Value * newOtherArray[i].Value);
                     index++;
                 }
 
@@ -74,10 +63,48 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 
                 double result = step1/(step2*step3);
 
-                ResultAdd(resultList, AlgorithmResultListItem.Build(new Tuple<int, int, double, int>(targetUserId, otherUser.Key, result, 0)), result);
+                ResultAdd(resultList, AlgorithmResultListItem.Build(new Tuple<int, int, double, int>(targetUserId, otherUser.Key, result, 0)), result);*/
             }
 
             return resultList;
+        }
+
+        /// <summary>
+        /// Computes Pearson Algorithm by taking two KeyValuePairs that contain the ratings
+        /// for both the target user and the other user and adds them to the result.
+        /// </summary>
+        /// <param name="resultList">The computed results (starts as empty list on first iteration)</param>
+        /// <param name="newTargetArray">Target ratings</param>
+        /// <param name="newOtherArray">Other user ratings</param>
+        /// <param name="targetUserId"></param>
+        /// <param name="otherUserId"></param>
+        private void CalculatePearson(List<AlgorithmResultListItem> resultList, KeyValuePair<int, float>[] newTargetArray, KeyValuePair<int, float>[] newOtherArray, int targetUserId, int otherUserId)
+        {
+            double sumX = 0.00,
+                    sumY = 0.00,
+                    sumXSquare = 0.00,
+                    sumYSquare = 0.00,
+                    sumXy = 0.00;
+
+            int index = 0;
+
+            for (int i = 0; i < newTargetArray.Length; i++)
+            {
+                sumX += newTargetArray[i].Value;
+                sumY += newOtherArray[i].Value;
+                sumXSquare += (newTargetArray[i].Value * newTargetArray[i].Value);
+                sumYSquare += (newOtherArray[i].Value * newOtherArray[i].Value);
+                sumXy += (newTargetArray[i].Value * newOtherArray[i].Value);
+                index++;
+            }
+
+            double numerator = sumXy - (sumX * sumY) / index;
+            double denominatorLeft = Math.Sqrt(sumXSquare - (Math.Pow(sumX, 2) / index));
+            double denominatorRight = Math.Sqrt(sumYSquare - (Math.Pow(sumY, 2) / index));
+
+            double result = numerator / (denominatorLeft * denominatorRight);
+
+            ResultAdd(resultList, AlgorithmResultListItem.Build(new Tuple<int, int, double, int>(targetUserId, otherUserId, result, 0)), result);
         }
     }
 }
