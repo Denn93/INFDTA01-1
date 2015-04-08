@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using BrianDennis.INFDTA01.Opdracht1.Models;
 
@@ -16,7 +17,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
             Dictionary<int, float> targetUser = DataSet[targetUserId].Preferences;
             List<AlgorithmResultListItem> resultList = new List<AlgorithmResultListItem>();
 
-            ThresHold = double.Parse(Configuration.Targets(View)["InitialThreshold"]);
+            ThresHold = double.Parse(Configuration.Targets(View)["InitialThreshold"], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
 
             foreach (KeyValuePair<int, UserPreference> otherUser in DataSet)
             {
@@ -38,32 +39,6 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
                 KeyValuePair<int, float>[] newOtherArray = newOther.ToArray();
 
                 CalculatePearson(resultList, newTargetArray, newOtherArray, targetUserId, otherUser.Key);
-/*
-                double sumX = 0.00,
-                    sumY = 0.00,
-                    sumXSquare = 0.00,
-                    sumYSquare = 0.00,
-                    sumXy = 0.00;
-
-                int index = 0;
-
-                for (int i = 0; i < newTargetArray.Length; i++)
-                {
-                    sumX += newTargetArray[i].Value;
-                    sumY += newOtherArray[i].Value;
-                    sumXSquare += (newTargetArray[i].Value * newTargetArray[i].Value);
-                    sumYSquare += (newOtherArray[i].Value * newOtherArray[i].Value);
-                    sumXy += (newTargetArray[i].Value * newOtherArray[i].Value);
-                    index++;
-                }
-
-                double step1 = sumXy - (sumX*sumY)/index;
-                double step2 = Math.Sqrt(sumXSquare - (Math.Pow(sumX, 2)/index));
-                double step3 = Math.Sqrt(sumYSquare - (Math.Pow(sumY, 2)/index));
-
-                double result = step1/(step2*step3);
-
-                ResultAdd(resultList, AlgorithmResultListItem.Build(new Tuple<int, int, double, int>(targetUserId, otherUser.Key, result, 0)), result);*/
             }
 
             return resultList;

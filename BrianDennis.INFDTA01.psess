@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<VSPerformanceSession Version="1.00">
+  <Options>
+    <Solution>BrianDennis.INFDTA01.sln</Solution>
+    <CollectionMethod>Instrumentation</CollectionMethod>
+    <AllocationMethod>None</AllocationMethod>
+    <AddReport>true</AddReport>
+    <ResourceBasedAnalysisSelected>true</ResourceBasedAnalysisSelected>
+    <UniqueReport>Timestamp</UniqueReport>
+    <SamplingMethod>Cycles</SamplingMethod>
+    <CycleCount>10000000</CycleCount>
+    <PageFaultCount>10</PageFaultCount>
+    <SysCallCount>10</SysCallCount>
+    <SamplingCounter Name="" ReloadValue="00000000000f4240" DisplayName="" />
+    <RelocateBinaries>false</RelocateBinaries>
+    <HardwareCounters EnableHWCounters="false" />
+    <EtwSettings />
+    <PdhSettings>
+      <PdhCountersEnabled>false</PdhCountersEnabled>
+      <PdhCountersRate>500</PdhCountersRate>
+      <PdhCounters>
+        <PdhCounter>\Memory\Pages/sec</PdhCounter>
+        <PdhCounter>\PhysicalDisk(_Total)\Avg. Disk Queue Length</PdhCounter>
+        <PdhCounter>\Processor(_Total)\% Processor Time</PdhCounter>
+      </PdhCounters>
+    </PdhSettings>
+  </Options>
+  <ExcludeSmallFuncs>true</ExcludeSmallFuncs>
+  <InteractionProfilingEnabled>false</InteractionProfilingEnabled>
+  <JScriptProfilingEnabled>false</JScriptProfilingEnabled>
+  <PreinstrumentEvent>
+    <InstrEventExclude>false</InstrEventExclude>
+  </PreinstrumentEvent>
+  <PostinstrumentEvent>
+    <InstrEventExclude>false</InstrEventExclude>
+  </PostinstrumentEvent>
+  <Binaries>
+    <ProjBinary>
+      <Path>BrianDennis.INFDTA01.Opdracht1\\bin\BrianDennis.INFDTA01.Opdracht1.dll</Path>
+      <ArgumentTimestamp>01/01/0001 00:00:00</ArgumentTimestamp>
+      <Instrument>true</Instrument>
+      <Sample>true</Sample>
+      <ExternalWebsite>false</ExternalWebsite>
+      <InteractionProfilingEnabled>false</InteractionProfilingEnabled>
+      <IsLocalJavascript>false</IsLocalJavascript>
+      <IsWindowsStoreApp>false</IsWindowsStoreApp>
+      <IsWWA>false</IsWWA>
+      <LaunchProject>true</LaunchProject>
+      <OverrideProjectSettings>false</OverrideProjectSettings>
+      <LaunchMethod>Browser</LaunchMethod>
+      <LaunchUrl>http://localhost:64411/</LaunchUrl>
+      <SiteUrl>http://localhost:64411/</SiteUrl>
+      <LocalPath>C:\Users\Dennis\Documents\Visual Studio 2013\Projects\BrianDennis.INFDTA01\BrianDennis.INFDTA01.Opdracht1\</LocalPath>
+      <VRoot>
+      </VRoot>
+      <NetAppHost>IIS</NetAppHost>
+      <NetBrowser>InternetExplorer</NetBrowser>
+      <ExcludeSmallFuncs>true</ExcludeSmallFuncs>
+      <JScriptProfilingEnabled>true</JScriptProfilingEnabled>
+      <PreinstrumentEvent>
+        <InstrEventExclude>false</InstrEventExclude>
+      </PreinstrumentEvent>
+      <PostinstrumentEvent>
+        <InstrEventExclude>false</InstrEventExclude>
+      </PostinstrumentEvent>
+      <ProjRef>{AF58302A-1AC3-4A14-B125-1C9A77D0B4BC}|BrianDennis.INFDTA01.Opdracht1\BrianDennis.INFDTA01.Opdracht1.csproj</ProjRef>
+      <ProjPath>BrianDennis.INFDTA01.Opdracht1\BrianDennis.INFDTA01.Opdracht1.csproj</ProjPath>
+      <ProjName>BrianDennis.INFDTA01.Opdracht1</ProjName>
+    </ProjBinary>
+  </Binaries>
+  <Reports>
+    <Report>
+      <Path>BrianDennis.INFDTA01150407(1).vsp</Path>
+    </Report>
+    <Report>
+      <Path>BrianDennis.INFDTA01150407(2).vsp</Path>
+    </Report>
+  </Reports>
+  <Launches>
+    <ProjBinary>
+      <Path>:PB:{AF58302A-1AC3-4A14-B125-1C9A77D0B4BC}|BrianDennis.INFDTA01.Opdracht1\BrianDennis.INFDTA01.Opdracht1.csproj</Path>
+    </ProjBinary>
+  </Launches>
+</VSPerformanceSession>

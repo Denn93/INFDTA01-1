@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -112,7 +113,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
 
             int userId = int.Parse(row[0]);
             int articleId = int.Parse(row[1]);
-            float rating = float.Parse(row[2]);
+            float rating = float.Parse(row[2], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
 
             if (!dataSet.ContainsKey(userId))
             {
@@ -155,13 +156,11 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
                     else
                     {
                         UserPreference content = dataSet[userId];
-                        content.Preferences.Add(articleId, float.Parse(items[i]));
+                        content.Preferences.Add(articleId, float.Parse(items[i], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
                     }
                 }    
             }
         }
-
-        #region Public Helper Methods
 
         /// <summary>
         /// This method gets the Dataset by String value of the Dataset enum item
@@ -175,8 +174,6 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services
 
             return DataSets.NotFound;
         }
-
-        #endregion
 
         #region Properties
 

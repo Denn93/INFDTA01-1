@@ -15,7 +15,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
 
         public ActionResult Index()
         {
-            return RetrieveView().Equals("MovieLens") ? View("Error") : View(new IndexViewModel { Data = UserItemDataSetFactory.Build(UserItemDataSetFactory.GetDatasetByString(RetrieveView())) });
+            return /*RetrieveView().Equals("MovieLens") ? View("Error") : */View(new IndexViewModel { Data = UserItemDataSetFactory.Build(UserItemDataSetFactory.GetDatasetByString(RetrieveView())).Take(10).ToDictionary(m=>m.Key, m=>m.Value) });
         }
 
         public ActionResult Euclidean(int? targetUser)
@@ -132,8 +132,7 @@ namespace BrianDennis.INFDTA01.Opdracht1.Controllers
                     //updateAlgorithm.PreparePairUpdate(61, 543, 4, 2);
                     break;
                 case "userItemCsv":
-                    updateAlgorithm.AddRating(105, 4.0f);
-                    updateAlgorithm.Calculate(3, null);
+                    updateAlgorithm.Calculate(3, 105, 4.0f);
                     break;
                 case "userItemEditedCsv":
                     //updateAlgorithm.PreparePairUpdate(101, 103, 4, 2);

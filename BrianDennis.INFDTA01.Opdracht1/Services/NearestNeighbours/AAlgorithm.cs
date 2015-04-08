@@ -24,6 +24,11 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
             throw new NotImplementedException();
         }
 
+        public virtual void Calculate(int targetUser, int article, float ratingI)
+        {
+            throw new NotImplementedException();
+        }
+
         protected SortedDictionary<int, UserPreference> DataSet;
 
         protected AAlgorithm(SortedDictionary<int, UserPreference> dataSet, string view)
@@ -33,7 +38,8 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
         }
 
         /// <summary>
-        /// This method determines if a item with the calculated similarity can be added to the list. 
+        /// This method determines if a item with the calculated 
+        /// similarity can be added to the list. 
         /// </summary>
         /// <param name="list">The resultList</param>
         /// <param name="item">Item to be added</param>

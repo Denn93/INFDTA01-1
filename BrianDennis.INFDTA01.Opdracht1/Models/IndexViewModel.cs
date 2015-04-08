@@ -4,6 +4,6 @@ namespace BrianDennis.INFDTA01.Opdracht1.Models
 {
     public class IndexViewModel
     {
-        public SortedDictionary<int, UserPreference> Data { get; set; }
+        public Dictionary<int, UserPreference> Data { get; set; }
     }
 }

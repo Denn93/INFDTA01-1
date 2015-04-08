@@ -18,8 +18,11 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 
         public static AAlgorithm Build(Algorithm algorithm, UserItemDataSetFactory.DataSets dataSetEnum, string view)
         {
-            SortedDictionary<int, UserPreference> dataSet = UserItemDataSetFactory.Build(dataSetEnum);
+            return Build(algorithm, UserItemDataSetFactory.Build(dataSetEnum), view);
+        }
 
+        public static AAlgorithm Build(Algorithm algorithm, SortedDictionary<int, UserPreference> dataSet, string view)
+        {
             switch (algorithm)
             {
                 case Algorithm.Euclidean:

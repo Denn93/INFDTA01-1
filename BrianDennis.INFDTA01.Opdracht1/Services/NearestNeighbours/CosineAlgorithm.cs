@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using BrianDennis.INFDTA01.Opdracht1.Models;
 
@@ -16,7 +17,8 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
             List<AlgorithmResultListItem> result = new List<AlgorithmResultListItem>();
             Dictionary<int, float> targetUser = DataSet[targetUserId].Preferences;
 
-            ThresHold = double.Parse(Configuration.Targets(View)["InitialThreshold"]);
+            ThresHold = double.Parse(Configuration.Targets(View)["InitialThreshold"], NumberStyles.AllowDecimalPoint,
+                CultureInfo.InvariantCulture);
 
             foreach (KeyValuePair<int, UserPreference> user in DataSet)
             {
@@ -43,7 +45,9 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 
                 double similarity = GetCosineSimilarity(targetUserRatings, otherUserRatings);
 
-                ResultAdd(result, AlgorithmResultListItem.Build(new Tuple<int, int, double, int>(targetUserId, user.Key, similarity, 0)), similarity);
+                ResultAdd(result,
+                    AlgorithmResultListItem.Build(new Tuple<int, int, double, int>(targetUserId, user.Key, similarity, 0)),
+                    similarity);
             }
             
             return result;

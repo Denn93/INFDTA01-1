@@ -8,17 +8,20 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 {
     public class ItemItemSlopeUpdate : AAlgorithm
     {
-        private List<Tuple<int, int>> _pairs;
-        private int _i;
-        private float _ratingI;
-
         public ItemItemSlopeUpdate(SortedDictionary<int, UserPreference> dataSet, string view) 
             : base(dataSet, view)
         {}
 
         public List<DeviationUpdateModel> ResultModel{ get; set; }
         
-        public override void Calculate(int targetUser, int? targetItem)
+        /// <summary>
+        /// Given a target user, item and rating, it adds the rating to the the user and
+        /// updates the deviations for the pairs that include the given item.
+        /// </summary>
+        /// <param name="targetUser"></param>
+        /// <param name="targetItem"></param>
+        /// <param name="ratingI"></param>
+        public override void Calculate(int targetUser, int targetItem, float ratingI)
         {
             Stopwatch watch = new Stopwatch();
             watch.Start();
@@ -28,28 +31,26 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
 
             SortedDictionary<int, UserPreference> dataset =
                 UserItemDataSetFactory.Build(UserItemDataSetFactory.DataSets.userItemCsv);
-            dataset[targetUser].Preferences.Add(_i, _ratingI);
+            dataset[targetUser].Preferences.Add(targetItem, ratingI);
 
             List<Tuple<int, int>> updatePairs =
-                ItemItemDeviationAlgorithm.GetPairList(View).Where(m => m.Item1 == _i || m.Item2 == _i).ToList();
+                ItemItemDeviationAlgorithm.GetPairList(View).Where(m => m.Item1 == targetItem || m.Item2 == targetItem).ToList();
 
             foreach (Tuple<int, int> updatePair in updatePairs)
             {
                 if (!dataset[targetUser].Preferences.ContainsKey(updatePair.Item1) || !dataset[targetUser].Preferences.ContainsKey(updatePair.Item2))
                     continue;
 
-
-                float ratingJ = (updatePair.Item1 != _i)
+                float ratingJ = (updatePair.Item1 != targetItem)
                     ? dataset[targetUser].Preferences[updatePair.Item1]
                     : dataset[targetUser].Preferences[updatePair.Item2];
 
                 double currentDeviation = deviations[updatePair].Item1;
                 double newCurrentDeviation = ((deviations[updatePair].Item1*deviations[updatePair].Item2) +
-                                              (_ratingI - ratingJ)) /
+                                              (ratingI - ratingJ)) /
                                              (deviations[updatePair].Item2 + 1);
 
                 deviations[updatePair] = new Tuple<double, int>(newCurrentDeviation, deviations[updatePair].Item2 + 1);
-
                 deviations[FlipPair(updatePair)] = new Tuple<double, int>(FlipResult(newCurrentDeviation), deviations[FlipPair(updatePair)].Item2 + 1);
 
                 ResultModel.Add(new DeviationUpdateModel
@@ -57,16 +58,16 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
                     UpdatePair = updatePair,
                     NewDeviation = newCurrentDeviation,
                     OldDeviation = currentDeviation,
-                    RatingI = _ratingI,
+                    RatingI = ratingI,
                     RatingJ = ratingJ
                 });
-
+                
                 ResultModel.Add(new DeviationUpdateModel
                 {
                     UpdatePair = FlipPair(updatePair),
                     NewDeviation = FlipResult(newCurrentDeviation),
                     OldDeviation = currentDeviation,
-                    RatingI = _ratingI,
+                    RatingI = ratingI,
                     RatingJ = ratingJ
                 });
             }
@@ -84,12 +85,6 @@ namespace BrianDennis.INFDTA01.Opdracht1.Services.NearestNeighbours
         private static Tuple<int,int> FlipPair(Tuple<int, int> pair)
         {
             return new Tuple<int, int>(pair.Item2, pair.Item1);
-        }
-
-        public void AddRating(int i, float ratingI)
-        {
-            _i = i;
-            _ratingI = ratingI;
         }
     }
 }
